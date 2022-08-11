@@ -1,22 +1,30 @@
 import { Builder, By } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
 
-const SKUS = ["4573102632593", "4580590127586"];
-
-async function getDates() {
-  const results: any = [];
-  for await (const SKU of SKUS) {
-    const res = await googleIt(SKU);
-    results.push(res);
-  }
-  console.log(results);
+export interface SKUResult {
+  SKU: string;
+  releaseDateTR: string;
 }
 
-getDates();
+export async function getDates(SKUArray: string[]) {
+  const results: SKUResult[] = [];
+  for await (const [i, SKU] of SKUArray.entries()) {
+    const res = await scraper(SKU);
+    console.log(`Finished SKU: ${i + 1} out of ${SKUArray.length}`);
+    if (res) {
+      results.push(res);
+    }
+  }
+  // console.log(`getDates function results below:`);
+  // console.log(results);
 
-const googleIt = async (SKU: string) => {
+  return results;
+}
+
+const scraper = async (SKU: string) => {
   let driver = await new Builder()
     .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
+    // .setFirefoxOptions(new firefox.Options().setBinary(`C:\Users\emora\geckodriver-v0.31.0-win64`))
     .forBrowser("firefox")
     .build();
 
@@ -29,9 +37,10 @@ const googleIt = async (SKU: string) => {
     await searchButton.click();
 
     const releaseDateTR = await driver.findElement(By.id("masterBody_trSalesDate")).getAttribute("innerText");
-
+    // console.log({ SKU, releaseDateTR });
     return { SKU, releaseDateTR };
   } catch (error) {
+    console.log(`SKU ${SKU} was not found, error message below`);
     console.log(error);
   } finally {
     await driver.quit();
