@@ -1,4 +1,3 @@
-import { google } from "googleapis";
 import { GOOGLEINFO } from "../../config";
 import * as Types from "../../../../Types";
 
@@ -15,13 +14,14 @@ export const writeValuesToSheet = async (webScrapedData: Types.SKUResult[]) => {
   //     goodData.push(cell);
   //   });
 
-  // do i need this auth stuff?
-  //   const { GoogleAuth } = require("google-auth-library");
-  //   const { google } = require("googleapis");
-  //   const auth = new GoogleAuth({ scopes: "https://www.googleapis.com/auth/spreadsheet" });
+  // cannot use an api key to write to sheets, need to use Oauth
+  const { GoogleAuth } = require("google-auth-library");
+  const { google } = require("googleapis");
+  const auth = new GoogleAuth({ scopes: "https://www.googleapis.com/auth/spreadsheet" });
 
-  const service = google.sheets({ version: "v4", auth: GOOGLEINFO.googleApiKey });
+  const service = google.sheets({ version: "v4", auth });
 
+  // test data here
   const resource = {
     values: [["value 1"], [" value 2"]],
   };

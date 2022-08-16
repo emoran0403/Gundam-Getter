@@ -7,6 +7,11 @@ export const GOOGLEINFO = {
   googleApiKey: process.env.GOOGLE_API_KEY,
 };
 
+export const CLIENTINFO = {
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+};
+
 /**
  *This is how we hide the secret info, while still being able to use it
  */
