@@ -1,5 +1,7 @@
+import { GOOGLEINFO } from "./config";
 import { getDates } from "./Utilities/selenium/selenium";
 import { readSKUsFromSheet } from "./Utilities/Sheets/SheetReader";
+import { writeValuesToSheet } from "./Utilities/Sheets/SheetWriter";
 
 export default function dostuff() {
   readSKUsFromSheet()
@@ -8,13 +10,17 @@ export default function dostuff() {
       return getDates(SKUArray);
     })
     .then((data) => {
+      console.log(`SKUResult array following...`);
       console.log(data);
-      //   return sheetWriterFunction
+      console.log(`Now calling writeValuesToSheet with the KUResult array`);
+
+      return writeValuesToSheet(data);
     })
     .catch((err) => {
+      console.log(`Error happened lol:`);
       console.log(err);
     })
     .finally(() => {
-      console.log(`should be done now`);
+      console.log(`All Done!`);
     });
 }

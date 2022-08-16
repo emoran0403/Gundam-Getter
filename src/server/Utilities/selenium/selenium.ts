@@ -1,16 +1,12 @@
 import { Builder, By } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
-
-export interface SKUResult {
-  SKU: string;
-  releaseDateTR: string;
-}
+import * as Types from "../../../../Types";
 
 export async function getDates(SKUArray: string[]) {
-  const results: SKUResult[] = [];
+  const results: Types.SKUResult[] = [];
   for await (const [i, SKU] of SKUArray.entries()) {
     const res = await scraper(SKU);
-    console.log(`Finished SKU: ${i + 1} out of ${SKUArray.length}`);
+    console.log(`Finished scraping SKU: ${i + 1} out of ${SKUArray.length}`);
     if (res) {
       results.push(res);
     }
