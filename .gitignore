@@ -7,5 +7,7 @@ public/js/app.js
 
 # don't commit secret passwords
 .env
+credentials.json
+src/server/GoogleAuth/Auth.ts
 
 TODO.txt

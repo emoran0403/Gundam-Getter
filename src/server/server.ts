@@ -10,8 +10,10 @@ app.use(apiRouter);
 // side-loading - basically an immediately imvoked function expression
 // import "./selenium/selenium";
 // import "./Utilities/Sheets/SheetReader";
-import notspphagetti from "./runthis";
-notspphagetti();
+// import notspphagetti from "./runthis";
+// notspphagetti();
+
+import "./GoogleAuth/Auth";
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server listening on port: ${port}`));
