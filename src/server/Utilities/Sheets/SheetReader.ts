@@ -9,7 +9,7 @@ export const readSKUsFromSheet = async () => {
     sheets.spreadsheets.values.get(
       {
         spreadsheetId: GOOGLEINFO.spreadSheetID,
-        range: "SKUHERE!A5:A6",
+        range: "SKUHERE!A5:A",
       },
       (err, res) => {
         if (err) {
