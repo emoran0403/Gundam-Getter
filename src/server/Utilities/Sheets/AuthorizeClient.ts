@@ -1,33 +1,17 @@
 // @ts-nocheck
 import { CLIENTINFO } from "../../config";
 import { writeValuesToSheet } from "./SheetWriter";
-
 const fs = require("fs");
-const readline = require("readline");
+
 const { google } = require("googleapis");
-
-// If modifying these scopes, delete token.json.
-const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
-
-const TOKEN_PATH = "token.json";
-
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
-
-let wow = { client_secret: CLIENTINFO.clientSecret, client_id: CLIENTINFO.clientID, redirect_uris: ["http://localhost:3000"] };
 
 // authorize(data);
 
 // http://localhost:3000/?code=4/0AdQt8qhAx5v0u9JekSI1zTcay_efe_na_smDnzisffNK8vO_nZ8-M7JIePaHfBtL2lKJDA&scope=https://www.googleapis.com/auth/spreadsheets
 
 export function authorizeAndWrite(data) {
+  const TOKEN_PATH = "token.json";
+  let wow = { client_secret: CLIENTINFO.clientSecret, client_id: CLIENTINFO.clientID, redirect_uris: ["http://localhost:3000"] };
   const { client_secret, client_id, redirect_uris } = wow;
   const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
@@ -46,6 +30,12 @@ export function authorizeAndWrite(data) {
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
 function getNewToken(oAuth2Client, callback) {
+  // If modifying these scopes, delete token.json.
+  const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
+  // The file token.json stores the user's access and refresh tokens, and is
+  // created automatically when the authorization flow completes for the first
+  // time.
+  const readline = require("readline");
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES,

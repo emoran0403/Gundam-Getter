@@ -1,7 +1,5 @@
 import { GOOGLEINFO } from "../../config";
 import * as Types from "../../../../Types";
-//* import define google
-const { google } = require("googleapis");
 // import { google } from "googleapis";
 
 // const google = google()
@@ -12,6 +10,9 @@ const { google } = require("googleapis");
  * @param webScrapedData The array of SKUResult objects.
  */ //@ts-ignore
 export const writeValuesToSheet = async (authClient, webScrapedData: Types.SKUResult[]) => {
+  //* import define google
+  const { google } = require("googleapis");
+
   //* transform incoming data into writable format
   let goodData: string[][] = [];
   webScrapedData.forEach((SKUResult) => {
