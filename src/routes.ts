@@ -1,5 +1,5 @@
 import * as express from "express";
-import doIt from "../server/runthis";
+import doIt from "./runthis";
 
 const router = express.Router();
 

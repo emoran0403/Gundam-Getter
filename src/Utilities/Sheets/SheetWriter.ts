@@ -1,15 +1,18 @@
 import { GOOGLEINFO } from "../../config";
-import * as Types from "../../../../Types";
 // import { google } from "googleapis";
 
 // const google = google()
+interface SKUResult {
+  SKU: string;
+  releaseDateTR: string;
+}
 
 /**
  * This function writes the release date values to the sheet.
  * @param authClient An authorized client.
  * @param webScrapedData The array of SKUResult objects.
  */ //@ts-ignore
-export const writeValuesToSheet = async (authClient, webScrapedData: Types.SKUResult[]) => {
+export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]) => {
   //* import define google
   const { google } = require("googleapis");
 

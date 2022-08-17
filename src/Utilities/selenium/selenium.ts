@@ -1,6 +1,10 @@
 import { Builder, By, Capabilities } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
-import * as Types from "../../../../Types";
+
+interface SKUResult {
+  SKU: string;
+  releaseDateTR: string;
+}
 
 /**
  * This function launches a headless firefox browser via Selenium,
@@ -10,7 +14,7 @@ import * as Types from "../../../../Types";
  */
 export async function getDates(SKUArray: string[]) {
   //* define an empty array to place the SKU results into
-  const results: Types.SKUResult[] = [];
+  const results: SKUResult[] = [];
 
   //* define capabilities for the browser
   /**
@@ -49,7 +53,6 @@ export async function getDates(SKUArray: string[]) {
 }
 
 /**
- *
  * @param SKU An SKU number to used to search the specified websites, ideally finding a release date.
  * @returns
  * * If successful, returns an object containing the SKU and release date.
@@ -109,13 +112,3 @@ const scraper = async (driver, SKU: string) => {
     return { SKU, releaseDateTR: `=HYPERLINK("${site1URL}","Manually verify")` };
   }
 };
-
-// try {
-// } catch (error) {}
-
-/**
- * initialize driver
- * iterate over the array of SKUs, pushing results to a temp array
- * when the iteration is complete, close the driver
- * return the temp array
- */
