@@ -12,7 +12,7 @@ export default function dostuff() {
     .then((data) => {
       console.log(`SKUResult array following...`);
       console.log(data);
-      console.log(`Now calling writeValuesToSheet with the KUResult array`);
+      console.log(`Now calling writeValuesToSheet with the SKUResult array`);
 
       authorizeAndWrite(data);
     })
