@@ -13,7 +13,11 @@ export async function getDates(SKUArray: string[]) {
   const results: Types.SKUResult[] = [];
 
   //* define capabilities for the browser
-  // eager directs selenium to begin once the DOM tree is loaded
+  /**
+   * This will make Selenium WebDriver to wait until the initial HTML document has been completely loaded and parsed
+   * and discards loading of stylesheets, images and subframes.
+   * When set to eager, Selenium WebDriver waits until DOMContentLoaded event fire is returned.
+   */
   let caps = new Capabilities();
   caps.setPageLoadStrategy("eager");
 
