@@ -12,10 +12,22 @@ export async function getDates(SKUArray: string[]) {
   //* define an empty array to place the SKU results into
   const results: Types.SKUResult[] = [];
 
+  //* define capabilities for the browser
+  // eager directs selenium to begin once the DOM tree is loaded
+  let caps = new Capabilities();
+  caps.setPageLoadStrategy("eager");
+
+  //* build a new selenium firefox browser with the given options / capabilities
+  let Selenium = await new Builder()
+    .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
+    .withCapabilities(caps)
+    .forBrowser("firefox")
+    .build();
+
   //* iterate over the SKU array, and for each SKU in the array, call scraper with the given SKU number
   for await (const [i, SKU] of SKUArray.entries()) {
     //* await the result of scraper
-    const res = await scraper(SKU);
+    const res = await scraper(Selenium, SKU);
 
     //* log progress
     console.log(`Finished scraping SKU: ${i + 1} out of ${SKUArray.length}`);
@@ -25,6 +37,8 @@ export async function getDates(SKUArray: string[]) {
   }
   // console.log(`getDates function results below:`);
   // console.log(results);
+  //* when the loop has finished scraping, the browser must quit
+  await Selenium.quit();
 
   //* when the iteration is complete, return the results array
   return results;
@@ -37,18 +51,18 @@ export async function getDates(SKUArray: string[]) {
  * * If successful, returns an object containing the SKU and release date.
  * * If not, returns an object containing the SKU and a link to the search results page.
  */
-const scraper = async (SKU: string) => {
-  //* define capabilities for the browser
-  // eager directs selenium to begin once the DOM tree is loaded
-  let caps = new Capabilities();
-  caps.setPageLoadStrategy("eager");
+const scraper = async (driver, SKU: string) => {
+  // //* define capabilities for the browser
+  // // eager directs selenium to begin once the DOM tree is loaded
+  // let caps = new Capabilities();
+  // caps.setPageLoadStrategy("eager");
 
-  //* build a new selenium firefox browser with the given options / capabilities
-  let driver = await new Builder()
-    .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
-    .withCapabilities(caps)
-    .forBrowser("firefox")
-    .build();
+  // //* build a new selenium firefox browser with the given options / capabilities
+  // let driver = await new Builder()
+  //   .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
+  //   .withCapabilities(caps)
+  //   .forBrowser("firefox")
+  //   .build();
 
   //* If selenium cannot find an element, or encounters an issue, it throws an error
   try {
@@ -89,11 +103,15 @@ const scraper = async (SKU: string) => {
     const site1URL = await driver.getCurrentUrl();
     //* return the object with the url formatted as a GoogleSheet link for manual verification
     return { SKU, releaseDateTR: `=HYPERLINK("${site1URL}","Manually verify")` };
-  } finally {
-    //* regardless of the scraping outcome, the browser must quit
-    await driver.quit();
   }
 };
 
 // try {
 // } catch (error) {}
+
+/**
+ * initialize driver
+ * iterate over the array of SKUs, pushing results to a temp array
+ * when the iteration is complete, close the driver
+ * return the temp array
+ */
