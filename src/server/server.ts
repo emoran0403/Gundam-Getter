@@ -10,10 +10,10 @@ app.use(apiRouter);
 // side-loading - basically an immediately imvoked function expression
 // import "./selenium/selenium";
 // import "./Utilities/Sheets/SheetReader";
-let starttime = Date.now();
-console.log(starttime);
-import notspphagetti from "./runthis";
-notspphagetti();
+// let starttime = Date.now();
+// console.log(starttime);
+// import notspphagetti from "./runthis";
+// notspphagetti();
 
 // import "./GoogleAuth/Auth";
 
