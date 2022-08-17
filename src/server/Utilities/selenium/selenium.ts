@@ -50,7 +50,7 @@ export async function getDates(SKUArray: string[]) {
  * @returns
  * * If successful, returns an object containing the SKU and release date.
  * * If not, returns an object containing the SKU and a link to the search results page.
- */
+ */ //@ts-ignore
 const scraper = async (driver, SKU: string) => {
   // //* define capabilities for the browser
   // // eager directs selenium to begin once the DOM tree is loaded
