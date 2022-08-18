@@ -48,6 +48,8 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
       valueInputOption,
       resource,
     });
+    // console.log(`should see a result below`);
+    // console.log(result);
 
     // console.log("%d cells updated.", result.data.updatedCells);
     //* if there was a result, log a message

@@ -10,8 +10,8 @@ export default function dostuff() {
       return getDates(SKUArray);
     })
     .then((data) => {
-      console.log(`SKUResult array following...`);
-      console.log(data);
+      // console.log(`SKUResult array following...`);
+      // console.log(data);
       console.log(`Now calling writeValuesToSheet with the SKUResult array`);
 
       authorizeAndWrite(data);

@@ -17,8 +17,10 @@ export function authorizeAndWrite(data) {
 
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, (err, token) => {
+    console.log(oAuth2Client);
     if (err) return getNewToken(oAuth2Client, () => writeValuesToSheet(oAuth2Client, data));
     oAuth2Client.setCredentials(JSON.parse(token));
+    console.log(oAuth2Client);
     writeValuesToSheet(oAuth2Client, data);
   });
 }
