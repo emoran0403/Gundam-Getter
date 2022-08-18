@@ -14,6 +14,7 @@ export default function dostuff() {
       // console.log(data);
       console.log(`Now calling writeValuesToSheet with the SKUResult array`);
 
+      // let testdata = `wow`;
       authorizeAndWrite(data);
     })
     .catch((err) => {

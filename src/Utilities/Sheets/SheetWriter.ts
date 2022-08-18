@@ -30,10 +30,16 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
   //* define the api service by calling google.sheets with the credentials
   const service = google.sheets({ version: "v4", auth: authClient });
 
-  // test data here
+  // let values = [[`more ch3eckds`]];
+  // // test data here
   const resource = {
     values: goodData,
   };
+
+  // test data here
+  // const resource = {
+  //   values,
+  // };
 
   //* define the required by the spreadsheets API
   const spreadsheetId = GOOGLEINFO!.spreadSheetID;

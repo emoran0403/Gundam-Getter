@@ -5,6 +5,7 @@ export const GOOGLEINFO = {
   spreadSheetID: process.env.GOOGLE_SPREADSHEET_ID,
   sheetID: process.env.GOOGLE_SHEET_ID,
   googleApiKey: process.env.GOOGLE_API_KEY,
+  GOOGLE_TOKEN: process.env.GOOGLE_TOKEN,
 };
 
 export const CLIENTINFO = {
