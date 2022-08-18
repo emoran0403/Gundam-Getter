@@ -9,11 +9,12 @@ const { google } = require("googleapis");
 
 // const TOKEN_PATH = "token.json";
 export function authorizeAndWrite(data) {
+  console.log(process.env);
   let wow = { client_secret: CLIENTINFO.clientSecret, client_id: CLIENTINFO.clientID, redirect_uris: ["http://localhost:3000"] };
   const { client_secret, client_id, redirect_uris } = wow;
   const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
-  oAuth2Client.setCredentials(JSON.parse(GOOGLEINFO.GOOGLE_TOKEN));
+  oAuth2Client.setCredentials(JSON.parse(JSON.parse(GOOGLEINFO.GOOGLE_TOKEN)));
   writeValuesToSheet(oAuth2Client, data);
 
   // console.log(`client without creds`);
