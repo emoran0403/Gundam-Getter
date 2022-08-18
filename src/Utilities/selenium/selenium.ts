@@ -1,3 +1,10 @@
+console.log(`path is next`);
+console.log(process.env.PATH);
+console.log(`reassigning path next`);
+Object.assign(process.env, { ...process.env, PATH: `/app/vendor/firefox:/app/vendor/geckodriver:${process.env.PATH}` });
+console.log(`final path is next`);
+console.log(process.env.PATH);
+
 import { Builder, By, Capabilities } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
 
@@ -25,9 +32,13 @@ export async function getDates(SKUArray: string[]) {
   let caps = new Capabilities();
   caps.setPageLoadStrategy("eager");
 
+  //   Firefox binaries to /tmp/build_15a7696b/vendor/firefox
+  // -----> Extracting Geckodriver binaries to /tmp/build_15a7696b/vendor/geckodriver
+
   //* build a new selenium firefox browser with the given options / capabilities
+  // .setBinary(`/app/vendor/firefox/firefox`)
   let Selenium = await new Builder()
-    .setFirefoxOptions(new firefox.Options().setBinary(`./geckodriver`).headless().windowSize({ width: 1, height: 1 }))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
     .withCapabilities(caps)
     .forBrowser("firefox")
     .build();
