@@ -6,7 +6,7 @@
 //   // this is my local environment
 //   Object.assign(process.env, { ...process.env, Path: `C:\\Users\\emora:${process.env.Path}` });
 // } else {
-// Object.assign(process.env, { ...process.env, PATH: `/app/vendor/firefox:/app/vendor/geckodriver:${process.env.PATH}` });
+Object.assign(process.env, { ...process.env, PATH: `/app/vendor/firefox:/app/vendor/geckodriver:${process.env.PATH}` });
 // }
 
 import { Builder, By, Capabilities } from "selenium-webdriver";
