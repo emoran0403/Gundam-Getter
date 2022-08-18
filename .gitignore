@@ -14,6 +14,7 @@
 
 # production
 /build
+dist/
 
 # misc
 .DS_Store
@@ -27,6 +28,9 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
+credentials.json
+token.json
 
 # vercel
 .vercel
