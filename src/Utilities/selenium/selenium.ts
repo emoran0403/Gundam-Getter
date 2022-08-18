@@ -27,7 +27,7 @@ export async function getDates(SKUArray: string[]) {
 
   //* build a new selenium firefox browser with the given options / capabilities
   let Selenium = await new Builder()
-    .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
+    .setFirefoxOptions(new firefox.Options().setBinary(process.env.FIREFOX_BINARY_PATH).headless().windowSize({ width: 1, height: 1 }))
     .withCapabilities(caps)
     .forBrowser("firefox")
     .build();
