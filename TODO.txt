@@ -35,3 +35,8 @@ https://stackoverflow.com/questions/59205530/heroku-server-crashes-with-javascri
 
 * switched to heroku-18 stack to use a buildpack, still having the memory ISSUES
 * not sure if i implemented that buildpack correctly
+
+
+//@ auth token has expired - need to get a refresh token
+
+//!  - https://www.npmjs.com/package/google-auth-library#oauth2 at the (Obtaining a new Refresh Token) section

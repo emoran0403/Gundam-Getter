@@ -1,20 +1,31 @@
 // @ts-nocheck
 import { CLIENTINFO, GOOGLEINFO } from "../../config";
 import { writeValuesToSheet } from "./SheetWriter";
-const fs = require("fs");
+import { OAuth2Client } from "google-auth-library";
+// const fs = require("fs");
+import * as fs from "fs";
 
-const { google } = require("googleapis");
+// const { google } = require("googleapis");
+import { google } from "googleapis";
 
 // authorize(data);
 
 // const TOKEN_PATH = "token.json";
 export function authorizeAndWrite(data) {
-  console.log(process.env);
-  let wow = { client_secret: CLIENTINFO.clientSecret, client_id: CLIENTINFO.clientID, redirect_uris: ["http://localhost:3000"] };
-  const { client_secret, client_id, redirect_uris } = wow;
-  const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+  // const keys = JSON.parse(process.env["CREDS"]);
+  // console.log(process.env);
+  const { client_secret, client_id, redirect_uris } = {
+    client_secret: CLIENTINFO.clientSecret,
+    client_id: CLIENTINFO.clientID,
+    redirect_uris: ["http://localhost:3000"],
+  };
 
-  oAuth2Client.setCredentials(JSON.parse(GOOGLEINFO.GOOGLE_TOKEN));
+  const oAuth2Client = new OAuth2Client(client_id, client_secret, redirect_uris);
+  oAuth2Client.scopes = ["https://www.googleapis.com/auth/cloud-platform"];
+  console.log({ oAuth2Client });
+
+  // JSON.parse(GOOGLEINFO.GOOGLE_TOKEN)
+  // oAuth2Client.setCredentials(JSON.parse(process.env.SERVICE_ACC_TOKEN));
   writeValuesToSheet(oAuth2Client, data);
 
   // console.log(`client without creds`);
