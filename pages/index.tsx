@@ -1,23 +1,45 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
+  // console.log({ router });
+
+  // router.asPath;
+
   const [msg, setMsg] = useState<string>("");
+  // useEffect(() => {}, []);
+
   useEffect(() => {
-    fetch(`/api/gundamget`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        setMsg(res.message);
-        console.log(res.message);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (router.asPath.length > 1) {
+      fetch(`/api/wow/${router.asPath}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log({ res });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      fetch(`/api/gundamget`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          setMsg(res.message);
+          console.log(res.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [router.asPath]);
   return (
     <div className={styles.container}>
       <Head>

@@ -2,16 +2,22 @@
 import { CLIENTINFO, GOOGLEINFO } from "../../config";
 import { writeValuesToSheet } from "./SheetWriter";
 import { OAuth2Client } from "google-auth-library";
+// const destroyer = require("server-destroy");
+import destroyer from "server-destroy";
 // const fs = require("fs");
 import * as fs from "fs";
 
 // const { google } = require("googleapis");
 import { google } from "googleapis";
 
+import http from "http";
+import url from "url";
+import open from "open";
+
 // authorize(data);
 
 // const TOKEN_PATH = "token.json";
-export function authorizeAndWrite(data) {
+export async function authorizeAndWrite(data) {
   // const keys = JSON.parse(process.env["CREDS"]);
   // console.log(process.env);
   const { client_secret, client_id, redirect_uris } = {
@@ -20,13 +26,27 @@ export function authorizeAndWrite(data) {
     redirect_uris: ["http://localhost:3000"],
   };
 
+  // console.log({ pizza });
   const oAuth2Client = new OAuth2Client(client_id, client_secret, redirect_uris);
-  oAuth2Client.scopes = ["https://www.googleapis.com/auth/cloud-platform"];
-  console.log({ oAuth2Client });
+
+  // Generate the url that will be used for the consent dialog.
+  const authorizeUrl = oAuth2Client.generateAuthUrl({
+    // To get a refresh token, you MUST set access_type to `offline`.
+    access_type: "offline",
+    // set the appropriate scopes
+    scope: "https://www.googleapis.com/auth/userinfo.profile",
+    // A refresh token is only returned the first time the user
+    // consents to providing access.  For illustration purposes,
+    // setting the prompt to 'consent' will force this consent
+    // every time, forcing a refresh_token to be returned.
+    prompt: "consent",
+  });
+  // http://localhost:3000/?code=4%2F0AdQt8qginu1ne1iMKrJHgGf3xdnhnQRqqhP4_B3AkvGVL8LPD5wv422XotB3nVozKoy4Jw&scope=profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile
+  console.log({ authorizeUrl });
 
   // JSON.parse(GOOGLEINFO.GOOGLE_TOKEN)
   // oAuth2Client.setCredentials(JSON.parse(process.env.SERVICE_ACC_TOKEN));
-  writeValuesToSheet(oAuth2Client, data);
+  //! writeValuesToSheet(oAuth2Client, data);
 
   // console.log(`client without creds`);
   // console.log(oAuth2Client);
@@ -44,6 +64,9 @@ export function authorizeAndWrite(data) {
   //   // console.log(oAuth2Client);
   // });
 }
+
+// oAuth2Client.scopes = ["https://www.googleapis.com/auth/cloud-platform"];
+// console.log({ oAuth2Client });
 
 /**
  * Get and store new token after prompting for user authorization, and then
