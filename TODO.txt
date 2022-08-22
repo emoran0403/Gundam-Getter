@@ -41,3 +41,5 @@ https://stackoverflow.com/questions/59205530/heroku-server-crashes-with-javascri
 
 //!  - https://www.npmjs.com/package/google-auth-library#oauth2 at the (Obtaining a new Refresh Token) section
 
+
+//# LEFT OFF HERE - on the passport branch, we are getting no errors, or other signs of life
