@@ -1,40 +1,54 @@
-import { GOOGLEINFO } from "./config";
-import { authorizeAndWrite } from "./Utilities/Sheets/AuthorizeClient";
-import { getDates } from "./Utilities/selenium/selenium";
-import { readSKUsFromSheet } from "./Utilities/Sheets/SheetReader";
-// const fs = require("fs");
-import * as fs from "fs";
+import { google } from "googleapis";
 
-export default function dostuff() {
-  // "/app/token.json"
-  // fs.writeFile(`${process.env.GOOGLE_APPLICATION_CREDENTIALS}`, process.env.SERVICE_ACC_TOKEN!, (err: any) => {
-  //   console.log(err);
-  // });
+const scope = "https://www.googleapis.com/auth/spreadsheets";
+const client = new google.auth.OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, "http://localhost:3000");
 
-  readSKUsFromSheet()
-    .then((rows) => {
-      const SKUArray = rows.flat();
-      // this is selenium
-      // return getDates(SKUArray);
-    })
-    .then((data) => {
-      // console.log(`SKUResult array following...`);
-      // console.log(data);
-      console.log(`Now calling writeValuesToSheet with the SKUResult array`);
-      //this is real data
-      // authorizeAndWrite(data);
+const range = "Sheet1!A1";
+const valueInputOption = "USER_ENTERED";
+const spreadsheetId = process.env.SPREADSHEET_ID;
 
-      let testdata = `wow`;
-      authorizeAndWrite(testdata);
-    })
-    .catch((err) => {
-      console.log(`Error happened lol:`);
-      console.log(err);
-    })
-    .finally(() => {
-      // let endtime = Date.now();
-      // console.log(endtime);
+client.on("tokens", tokens => {
+    const { access_token, refresh_token } = tokens;
 
-      console.log(`All Done!`);
-    });
+    if (access_token) process.env.ACCESS_TOKEN = access_token;
+    if (refresh_token) process.env.REFRESH_TOKEN = refresh_token;
+});
+
+export default async function dostuff() {
+    try {
+        if (!process.env.ACCESS_TOKEN || !process.env.REFRESH_TOKEN) {
+            const url = client.generateAuthUrl({ access_type: "offline", scope });
+            console.log({ message: "Click this link to get the initial OAuth2 consent screen", url });
+        }
+
+        const sheets = google.sheets({ version: "v4", auth: client });
+
+        const values = [["Deez Nutz"]];
+
+        const resource = { values };
+
+        // @ts-ignore
+        const result = await sheets.spreadsheets.values.update({
+            spreadsheetId,
+            range,
+            valueInputOption,
+            resource
+        });
+        console.log({ result });
+    } catch (error) {
+        console.log((error as any).message);
+    }
 }
+
+export const checkEmAndStoreEm = async (code: string, scope: string) => {
+    const { tokens } = await client.getToken(code);
+
+    const { access_token, refresh_token } = tokens;
+
+    if (access_token) process.env.ACCESS_TOKEN = access_token;
+    if (refresh_token) process.env.REFRESH_TOKEN = refresh_token;
+
+    client.setCredentials({ refresh_token });
+
+    return tokens;
+};
