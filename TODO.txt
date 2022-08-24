@@ -43,3 +43,7 @@ https://stackoverflow.com/questions/59205530/heroku-server-crashes-with-javascri
 
 
 //# LEFT OFF HERE - on the passport branch, we are getting no errors, or other signs of life
+
+* remove passport, open, and server destroy, google-auth-library and their types
+authorize client will need to be changes
+and adding a view to the front end for verifying
