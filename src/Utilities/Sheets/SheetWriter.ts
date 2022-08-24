@@ -17,11 +17,11 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
   const { google } = require("googleapis");
 
   //* transform incoming data into writable format
-  // let goodData: string[][] = [];
-  // webScrapedData.forEach((SKUResult) => {
-  //   let cell = [SKUResult.releaseDateTR];
-  //   goodData.push(cell);
-  // });
+  let goodData: string[][] = [];
+  webScrapedData.forEach((SKUResult) => {
+    let cell = [SKUResult.releaseDateTR];
+    goodData.push(cell);
+  });
 
   // cannot use an api key to write to sheets, need to use Oauth
   // const { GoogleAuth } = require("google-auth-library");
@@ -31,15 +31,15 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
   const service = google.sheets({ version: "v4", auth: authClient });
 
   // real data here
-  // const resource = {
-  //   values: goodData,
-  // };
+  const resource = {
+    values: goodData,
+  };
 
   // test data here
-  let values = [[`more ch3eckds`]];
-  const resource = {
-    values,
-  };
+  // let values = [[`more ch3eckds`]];
+  // const resource = {
+  //   values,
+  // };
 
   //* define the required by the spreadsheets API
   const spreadsheetId = GOOGLEINFO!.spreadSheetID;

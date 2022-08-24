@@ -18,6 +18,7 @@ export const readSKUsFromSheet = async () => {
       },
       (err, res) => {
         //* if there was an error, log it and reject the promise
+        // console.log({ err, res });
         if (err) {
           console.log("The API returned an error: " + err);
           reject(err);
@@ -25,7 +26,7 @@ export const readSKUsFromSheet = async () => {
 
         //* define the rows to be returned
         const rows = res!.data.values;
-
+        // console.log({ rows });
         //* if there are rows, resolve with the rows
         if (rows!.length) {
           // console.log(`rows below:`);

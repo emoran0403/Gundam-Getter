@@ -4,9 +4,9 @@
 
 // if (process.env.NODE_ENV !== "production") {
 //   // this is my local environment
-//   Object.assign(process.env, { ...process.env, Path: `C:\\Users\\emora:${process.env.Path}` });
+Object.assign(process.env, { ...process.env, PATH: `C:\\Users\\emora;${process.env.Path}` });
 // } else {
-Object.assign(process.env, { ...process.env, PATH: `/app/vendor/firefox:/app/vendor/geckodriver:${process.env.PATH}` });
+// Object.assign(process.env, { ...process.env, PATH: `/app/vendor/firefox:/app/vendor/geckodriver:${process.env.PATH}` });
 // }
 
 import { Builder, By, Capabilities } from "selenium-webdriver";
@@ -41,11 +41,16 @@ export async function getDates(SKUArray: string[]) {
 
   //* build a new selenium firefox browser with the given options / capabilities
   // .setBinary(`/app/vendor/firefox/firefox`)
+  console.log(`look here`);
+  // console.log({ path: process.env });
+
   let Selenium = await new Builder()
     .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
     .withCapabilities(caps)
     .forBrowser("firefox")
     .build();
+
+  // console.log({ Selenium });
 
   //* iterate over the SKU array, and for each SKU in the array, call scraper with the given SKU number
   for await (const [i, SKU] of SKUArray.entries()) {
