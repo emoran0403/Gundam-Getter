@@ -18,36 +18,44 @@ client.on("tokens", (tokens) => {
 });
 
 export default async function dostuff() {
-  try {
-    if (!process.env.ACCESS_TOKEN || !process.env.REFRESH_TOKEN) {
-      const url = client.generateAuthUrl({ access_type: "offline", scope, response_type: "code" });
-      console.log({ message: "Click this link to get the initial OAuth2 consent screen", url });
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!process.env.ACCESS_TOKEN || !process.env.REFRESH_TOKEN) {
+        const url = client.generateAuthUrl({ access_type: "offline", scope, response_type: "code" });
+        console.log({ message: "Click this link to get the initial OAuth2 consent screen", url });
+
+        throw new Error(url);
+        // reject(url);
+      }
+
+      //* retrieve the SKUs from the sheet
+      const rows = await readSKUsFromSheet();
+      //* transform the data
+      const SKUArray = rows.flat();
+      // console.log({ rows, SKUArray });
+      // console.log(`data below`);
+      const data = await getDates(SKUArray);
+      // console.log({ data });
+      await writeValuesToSheet(client, data);
+
+      resolve(`looking good`);
+
+      // const sheets = google.sheets({ version: "v4", auth: client });
+      // const values = [["Deez Nutz"]];
+      // const resource = { values };
+
+      // // @ts-ignore
+      // const result = await sheets.spreadsheets.values.update({
+      //     spreadsheetId,
+      //     range,
+      //     valueInputOption,
+      //     resource
+      // });
+    } catch (error) {
+      reject(error);
+      console.log((error as any).message);
     }
-
-    //* retrieve the SKUs from the sheet
-    const rows = await readSKUsFromSheet();
-    //* transform the data
-    const SKUArray = rows.flat();
-    // console.log({ rows, SKUArray });
-    // console.log(`data below`);
-    const data = await getDates(SKUArray);
-    // console.log({ data });
-    writeValuesToSheet(client, data);
-
-    // const sheets = google.sheets({ version: "v4", auth: client });
-    // const values = [["Deez Nutz"]];
-    // const resource = { values };
-
-    // // @ts-ignore
-    // const result = await sheets.spreadsheets.values.update({
-    //     spreadsheetId,
-    //     range,
-    //     valueInputOption,
-    //     resource
-    // });
-  } catch (error) {
-    console.log((error as any).message);
-  }
+  });
 }
 
 export const checkEmAndStoreEm = async (code: string, scope: string) => {

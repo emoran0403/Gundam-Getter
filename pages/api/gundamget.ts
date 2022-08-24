@@ -4,14 +4,22 @@ import doIt from "../../src/runthis";
 
 type Data = {
   message: string;
+  url?: string;
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    doIt();
+    await doIt();
     res.status(200).json({ message: "Working on it!" });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "something went wrong" });
+  } catch (err) {
+    const error = err as { message: string };
+    // console.log(`error message below lol`);
+    // console.log(error.message);
+
+    if (error?.message?.includes("//")) {
+      res.status(202).json({ message: "redirecting", url: error.message });
+    } else {
+      res.status(400).json({ message: "something went wrong" });
+    }
   }
 }
