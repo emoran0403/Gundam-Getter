@@ -4,7 +4,11 @@ import { readSKUsFromSheet } from "./Utilities/Sheets/SheetReader";
 import { writeValuesToSheet } from "./Utilities/Sheets/SheetWriter";
 
 const scope = "https://www.googleapis.com/auth/spreadsheets";
-const client = new google.auth.OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, "http://localhost:3000");
+const client = new google.auth.OAuth2(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  "https://ejmdev-gundam-getter.herokuapp.com/"
+);
 
 // const range = "Sheet1!A1";
 // const valueInputOption = "USER_ENTERED";
