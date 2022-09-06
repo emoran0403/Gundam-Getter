@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (router.asPath.length > 1) {
-      router.push(`/verify/${router.asPath}`);
+      router.push(`/verify${router.asPath}`);
     } else {
       fetch(`/api/gundamget`)
         .then(async (res) => {
@@ -28,6 +28,7 @@ const Home: NextPage = () => {
           console.log(err);
         });
     }
+    console.log(`rendering page now: ${router.asPath}`);
   }, [router.asPath]);
   return (
     <div className={styles.container}>

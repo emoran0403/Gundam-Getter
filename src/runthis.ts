@@ -11,10 +11,17 @@ const client = new google.auth.OAuth2(process.env.CLIENT_ID, process.env.CLIENT_
 // const spreadsheetId = process.env.SPREADSHEET_ID;
 
 client.on("tokens", (tokens) => {
+  // if (process.env.ACCESS_TOKEN && process.env.REFRESH_TOKEN) {
+  //   return;
+  // }
   const { access_token, refresh_token } = tokens;
+  console.log({ access_token, refresh_token, location: `client dot on token event` });
 
   if (access_token) process.env.ACCESS_TOKEN = access_token;
-  if (refresh_token) process.env.REFRESH_TOKEN = refresh_token;
+  if (refresh_token) {
+    process.env.REFRESH_TOKEN = refresh_token;
+    client.setCredentials({ access_token, refresh_token });
+  }
 });
 
 export default async function dostuff() {
@@ -36,6 +43,13 @@ export default async function dostuff() {
       // console.log(`data below`);
       const data = await getDates(SKUArray);
       // console.log({ data });
+      // let data = [
+      //   {
+      //     SKU: `wow`,
+      //     releaseDateTR: `wow`,
+      //   },
+      // ];
+
       await writeValuesToSheet(client, data);
 
       resolve(`looking good`);
@@ -58,15 +72,24 @@ export default async function dostuff() {
   });
 }
 
-export const checkEmAndStoreEm = async (code: string, scope: string) => {
+export const checkEmAndStoreEm = async (code: string) => {
+  if (!process.env.CODE) {
+    process.env.CODE = code;
+  }
+
+  // if (process.env.ACCESS_TOKEN && process.env.REFRESH_TOKEN) {
+  //   return;
+  // }
   const { tokens } = await client.getToken(code);
 
   const { access_token, refresh_token } = tokens;
 
   if (access_token) process.env.ACCESS_TOKEN = access_token;
-  if (refresh_token) process.env.REFRESH_TOKEN = refresh_token;
+  if (refresh_token) {
+    process.env.REFRESH_TOKEN = refresh_token;
+    client.setCredentials({ access_token, refresh_token });
+  }
 
-  client.setCredentials({ refresh_token });
-
+  console.log({ access_token, refresh_token, location: `checkEmAndStoreEm` });
   return tokens;
 };

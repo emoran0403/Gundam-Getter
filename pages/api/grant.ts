@@ -6,9 +6,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // console.log("hit");
 
-  if (!code || typeof code !== "string" || typeof scope !== "string" || !scope) return res.json({ message: "stfu they're defined" });
+  if (!code || typeof code !== "string" || typeof scope !== "string" || !scope)
+    return res.json({ message: "stfu they're defined" });
 
-  checkEmAndStoreEm(code, scope);
+  checkEmAndStoreEm(code);
 
   res.json({ scope });
 }

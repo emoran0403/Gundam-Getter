@@ -1,4 +1,5 @@
 import { GOOGLEINFO } from "../../config";
+import { checkEmAndStoreEm } from "../../runthis";
 // import { google } from "googleapis";
 
 // const google = google()
@@ -12,7 +13,7 @@ interface SKUResult {
  * @param authClient An authorized client.
  * @param webScrapedData The array of SKUResult objects.
  */ //@ts-ignore
-export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]) => {
+export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[], hasRerun: boolean = false) => {
   //* import define google
   const { google } = require("googleapis");
 
@@ -45,7 +46,9 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
   const spreadsheetId = GOOGLEINFO!.spreadSheetID;
   const range = "SKUHERE!B5:B";
   const valueInputOption = `USER_ENTERED`;
-
+  console.log(`auth client belkow`);
+  // console.log({ service });
+  // console.log(JSON.stringify(service, null, 2));
   try {
     //* await the results of updating the sheet with the given parameters
     const result = await service.spreadsheets.values.update({
@@ -66,5 +69,11 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
   } catch (err) {
     //* if there were any errors, log a message
     console.log(err);
+
+    if (!hasRerun) {
+      checkEmAndStoreEm(process.env.CODE!);
+
+      writeValuesToSheet(authClient, webScrapedData, true);
+    }
   }
 };
