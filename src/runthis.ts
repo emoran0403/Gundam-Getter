@@ -7,7 +7,7 @@ const scope = "https://www.googleapis.com/auth/spreadsheets";
 const client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
-  "https://ejmdev-gundam-getter.herokuapp.com/"
+  "https://ejmdev-gundam-getter.herokuapp.com"
 );
 
 // const range = "Sheet1!A1";
