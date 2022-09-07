@@ -18,7 +18,12 @@ const Home: NextPage = () => {
             const { url } = await res.json();
             window.location.href = url;
           }
-          return res.json();
+
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error(`An error occurred executing gundam get`);
+          }
         })
         .then((res) => {
           setMsg(res.message);
