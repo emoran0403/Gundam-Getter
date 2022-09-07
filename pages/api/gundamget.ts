@@ -17,6 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // console.log(error.message);
 
     if (error?.message?.includes("//")) {
+      console.log(error);
       res.status(202).json({ message: "redirecting", url: error.message });
     } else {
       res.status(400).json({ message: "something went wrong" });
