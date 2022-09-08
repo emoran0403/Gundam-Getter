@@ -21,6 +21,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     } else {
       res.status(400).json({ message: "something went wrong" });
     }
-    console.log(error);
   }
 }

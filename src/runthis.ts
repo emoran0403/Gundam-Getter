@@ -71,7 +71,6 @@ export default async function dostuff() {
       // });
     } catch (error) {
       reject(error);
-      console.log((error as any).message);
     }
   });
 }
