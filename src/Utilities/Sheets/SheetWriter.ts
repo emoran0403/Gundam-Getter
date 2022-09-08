@@ -1,6 +1,6 @@
 import { GOOGLEINFO } from "../../config";
 import { checkEmAndStoreEm } from "../../runthis";
-// import { google } from "googleapis";
+import { google } from "googleapis";
 
 // const google = google()
 interface SKUResult {
@@ -28,8 +28,16 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
   // const { GoogleAuth } = require("google-auth-library");
   // const auth = new GoogleAuth({ scopes: "https://www.googleapis.com/auth/spreadsheet" });
 
+  //@ make the auth client
+  const scope = "https://www.googleapis.com/auth/spreadsheets";
+  const client = new google.auth.OAuth2(
+    process.env.CLIENT_ID,
+    process.env.CLIENT_SECRET,
+    process.env.GOOGLE_REDIRECT_URI
+  );
+
   //* define the api service by calling google.sheets with the credentials
-  const service = google.sheets({ version: "v4", auth: authClient });
+  const service = google.sheets({ version: "v4", auth: client });
 
   // real data here
   const resource = {
@@ -46,9 +54,15 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
   const spreadsheetId = GOOGLEINFO!.spreadSheetID;
   const range = "SKUHERE!B5:B";
   const valueInputOption = `USER_ENTERED`;
-  console.log(`auth client belkow`);
+  console.log(`auth client below`);
   // console.log({ service });
   // console.log(JSON.stringify(service, null, 2));
+
+  console.log({
+    REFRESHTOKEN: process.env.REFRESH_TOKEN,
+    ACCESSTOKEN: process.env.ACCESS_TOKEN,
+    AUTHCLIENT: authClient,
+  });
   try {
     //* await the results of updating the sheet with the given parameters
     const result = await service.spreadsheets.values.update({
@@ -70,10 +84,11 @@ export const writeValuesToSheet = async (authClient, webScrapedData: SKUResult[]
     //* if there were any errors, log a message
     console.log(err);
 
-    if (!hasRerun) {
-      checkEmAndStoreEm(process.env.CODE!);
+    //@ the recursive stuff
+    // if (!hasRerun) {
+    //   checkEmAndStoreEm(process.env.CODE!);
 
-      writeValuesToSheet(authClient, webScrapedData, true);
-    }
+    //   writeValuesToSheet(authClient, webScrapedData, true);
+    // }
   }
 };

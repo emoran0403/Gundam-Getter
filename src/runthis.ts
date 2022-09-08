@@ -43,16 +43,19 @@ export default async function dostuff() {
       const rows = await readSKUsFromSheet();
       //* transform the data
       const SKUArray = rows.flat();
-      // console.log({ rows, SKUArray });
-      // console.log(`data below`);
-      const data = await getDates(SKUArray);
-      // console.log({ data });
-      // let data = [
-      //   {
-      //     SKU: `wow`,
-      //     releaseDateTR: `wow`,
-      //   },
-      // ];
+
+      //@ GOOD DATA
+      // const data = await getDates(SKUArray);
+      //@ GOOD DATA
+
+      //@ TEST DATA
+      let data = [
+        {
+          SKU: `wow`,
+          releaseDateTR: `wow`,
+        },
+      ];
+      //@ TEST DATA
 
       await writeValuesToSheet(client, data);
 
@@ -94,5 +97,6 @@ export const checkEmAndStoreEm = async (code: string) => {
   }
 
   console.log({ access_token, refresh_token, location: `checkEmAndStoreEm` });
+
   return tokens;
 };
