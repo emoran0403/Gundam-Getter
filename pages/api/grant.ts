@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { checkEmAndStoreEm } from "../../src/runthis";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code, scope } = req.query;
@@ -8,8 +7,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (!code || typeof code !== "string" || typeof scope !== "string" || !scope)
     return res.json({ message: "stfu they're defined" });
-
-  checkEmAndStoreEm(code);
-
   res.json({ scope });
 }
