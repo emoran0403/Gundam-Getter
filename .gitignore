@@ -40,5 +40,4 @@ token.json
 next-env.d.ts
 
 # credentials
-webclientcreds.json
 serviceaccountcreds.json
