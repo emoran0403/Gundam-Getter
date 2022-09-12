@@ -11,34 +11,12 @@ export default async function dostuff() {
       //* transform the data
       const SKUArray = rows.flat();
 
-      //@ GOOD DATA
-      // const data = await getDates(SKUArray);
-      //@ GOOD DATA
-
-      //@ TEST DATA
-      let data = [
-        {
-          SKU: `wow`,
-          releaseDateTR: `wow`,
-        },
-      ];
-      //@ TEST DATA
+      //* this runs the selenium scraper
+      const data = await getDates(SKUArray);
 
       await writeValuesToSheet(data);
 
       resolve(`looking good`);
-
-      // const sheets = google.sheets({ version: "v4", auth: client });
-      // const values = [["Deez Nutz"]];
-      // const resource = { values };
-
-      // // @ts-ignore
-      // const result = await sheets.spreadsheets.values.update({
-      //     spreadsheetId,
-      //     range,
-      //     valueInputOption,
-      //     resource
-      // });
     } catch (error) {
       reject(error);
     }
