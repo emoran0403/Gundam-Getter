@@ -1,1 +1,1 @@
-npm install && npm run dev
+npm install && npm run dev && start "" "http://localhost:3000"
