@@ -40,7 +40,7 @@ export const writeValuesToSheet = async (webScrapedData: SKUResult[]) => {
 
   //* define the required by the spreadsheets API
   const spreadsheetId = GOOGLEINFO!.spreadSheetID;
-  const range = "SKUHERE!B5:B";
+  const range = "Sheet1!B5:B";
   const valueInputOption = `USER_ENTERED`;
 
   try {

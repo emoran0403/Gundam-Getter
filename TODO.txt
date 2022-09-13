@@ -2,7 +2,7 @@
 https://developers.google.com/sheets/api/guides/values#node.js_2
 
 //# project console thing
-https://console.cloud.google.com/apis/credentials?project=gundam-getter&supportedpurview=project
+https://console.cloud.google.com/apis/credentials?project=gundam-getter-2&supportedpurview=project
 
 https://developers.google.com/sheets/api/quickstart/nodejs
 
