@@ -1,5 +1,6 @@
 Object.assign(process.env, { ...process.env, PATH: `C:\\Users\\emora;${process.env.Path}` });
 
+import { waitForDebugger } from "inspector";
 import { Builder, By, Capabilities } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
 
@@ -35,8 +36,11 @@ export async function getDates(SKUArray: string[]) {
   console.log(`look here`);
   // console.log({ path: process.env });
 
+  //* add this after options for production // remove for demonstration purposes
+  //! .headless().windowSize({ width: 1, height: 1 })
+
   let Selenium = await new Builder()
-    .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
+    .setFirefoxOptions(new firefox.Options())
     .withCapabilities(caps)
     .forBrowser("firefox")
     .build();
@@ -123,3 +127,31 @@ const scraper = async (driver, SKU: string) => {
     return { SKU, releaseDateTR: `=HYPERLINK("${site1URL}","Manually verify")` };
   }
 };
+
+//* scraper structure for additional sites, dont use a big try catch or a nasty switch
+
+// import gcz from './1999';
+// import prz from './otherScraper';
+
+// const scrapers = { gcz, prz };
+
+// function(SKU, prefix) {
+//   await scrapers[prefix](SKU)
+// }
+
+// import 1999scraper from './1999';
+// import otherScraper from './otherScraper';
+
+// const scrapers = { gcz: 1999scraper, prz: otherScraper };
+
+// function(SKU, prefix) {
+//   await scrapers[prefix](SKU)
+// }
+
+//@ workflow
+// paste data to sheet
+// execute runthis file (opens up the server)
+// wait
+// copy data to the nice sheet
+// copy over next batch to temp sheet
+// refresh localhost to trigger for the next batch
