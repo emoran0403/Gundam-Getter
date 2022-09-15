@@ -36,6 +36,7 @@ export default async function dostuff() {
 
       resolve(`looking good`);
     } catch (error) {
+      console.log(error);
       reject(error);
     }
   });
