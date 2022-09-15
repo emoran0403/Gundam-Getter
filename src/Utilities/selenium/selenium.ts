@@ -1,6 +1,12 @@
-Object.assign(process.env, { ...process.env, PATH: `C:\\Users\\emora;${process.env.Path}` });
+import * as path from "path";
 
-import { waitForDebugger } from "inspector";
+const geckopath = path.join(__dirname, "../../../../src/Utilities/selenium/");
+
+Object.assign(process.env, { ...process.env, PATH: `${process.env.Path};${geckopath}` });
+
+// console.log({ geckomaybe: geckopath });
+// console.log(__dirname);
+
 import { Builder, By, Capabilities } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
 
@@ -36,10 +42,9 @@ export async function getDates(SKUArray: string[]) {
   console.log(`look here`);
   // console.log({ path: process.env });
 
-  //* add this after options for production // remove for demonstration purposes
-  //! .headless().windowSize({ width: 1, height: 1 })
-
   let Selenium = await new Builder()
+    //! enable headless for production and disable headless for development
+    // .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
     .setFirefoxOptions(new firefox.Options())
     .withCapabilities(caps)
     .forBrowser("firefox")

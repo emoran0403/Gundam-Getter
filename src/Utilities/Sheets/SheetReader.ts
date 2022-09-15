@@ -1,8 +1,6 @@
 import { google } from "googleapis";
 import { GOOGLEINFO } from "../../config";
 
-console.log(process.env);
-
 /**
  * This function reads from the google sheet and returns an array of SKUs.
  * @returns Returns an array of SKUs read from the google sheet.
