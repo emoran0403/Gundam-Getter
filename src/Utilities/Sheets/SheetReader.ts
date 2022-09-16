@@ -18,14 +18,14 @@ export const readSKUsFromSheet = async () => {
   return new Promise<string[][]>((resolve, reject) => {
     //* instruct service to retrieve the specified data from the sheet
 
-    console.log({
-      message: "check the last 5 characters of the spreadsheet ID matches the following...",
-      spreadsheetID: GOOGLEINFO.spreadSheetID?.slice(-5),
-    });
+    // console.log({
+    //   message: "check the last 5 characters of the spreadsheet ID matches the following...",
+    //   spreadsheetID: GOOGLEINFO.spreadSheetID?.slice(-5),
+    // });
 
     service.spreadsheets.values.get(
       {
-        spreadsheetId: GOOGLEINFO.spreadSheetID,
+        spreadsheetId: "13doZtU-apPVwpVs4yKRUvo1RLzIzmpD9OWjBQp946KA",
         range: "Sheet1!A5:A",
       },
       (err, res) => {
