@@ -44,8 +44,8 @@ export async function getDates(SKUArray: string[]) {
 
   let Selenium = await new Builder()
     //! enable headless for production and disable headless for development
-    // .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
-    .setFirefoxOptions(new firefox.Options())
+    .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
+    // .setFirefoxOptions(new firefox.Options())
     .withCapabilities(caps)
     .forBrowser("firefox")
     .build();
