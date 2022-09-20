@@ -33,6 +33,7 @@ export default async function dostuff() {
 
       // console.log(`nice sku array next`);
       // console.log(ModelKitArray);
+
       //* this runs the selenium scraper
       const data = await launchSelenium(ModelKitArray);
 
