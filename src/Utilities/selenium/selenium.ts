@@ -131,11 +131,3 @@ const scraper = async (driver, SKU: string) => {
     return { SKU, releaseDateTR: `=HYPERLINK("${site1URL}","Manually verify")` };
   }
 };
-
-//@ workflow
-// paste data to sheet
-// execute runthis file (opens up the server)
-// wait
-// copy data to the nice sheet
-// copy over next batch to temp sheet
-// refresh localhost to trigger for the next batch
