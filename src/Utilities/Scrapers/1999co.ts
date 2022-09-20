@@ -1,5 +1,6 @@
 import * as Types from "../../../Types";
 import { By } from "selenium-webdriver";
+import dayjs from "dayjs";
 
 const thisScraperSite = "https://1999.co.jp/";
 
@@ -29,21 +30,25 @@ export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<
 
     //* grab the site URL to allow for linking to the site from the sheet
     const siteURL = await driver.getCurrentUrl();
+    //* grab today's date for the scrapedDate
+    const scrapedDate = dayjs().format("MMMM/DD/YYYY");
 
     //* IF Successful - return an object with the data
-    return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate: Date.now() };
+    return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate };
   } catch (error) {
     //* if the website did not have the item, log it
     console.log(`SKU ${modelKit.SKU} was not found on ${thisScraperSite}`);
 
     //* grab the site URL to allow for linking to the site from the sheet
     const siteURL = await driver.getCurrentUrl();
+    //* grab today's date for the scrapedDate
+    const scrapedDate = dayjs().format("MMMM/DD/YYYY");
 
     //* IF Unsuccessful - return the object with the data and unsuccessful message
     return {
       ...modelKit,
       releaseDate: `=HYPERLINK("${siteURL}","Not Found")`,
-      scrapedDate: Date.now(),
+      scrapedDate,
     };
   }
 };
