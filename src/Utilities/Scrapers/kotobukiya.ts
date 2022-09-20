@@ -18,7 +18,7 @@ export const scraper_kotobukiya = async (driver, modelKit: Types.ModelKit): Prom
     await driver.get(thisScraperSite);
 
     //* find the input and search button
-    // const input = await driver.findElement(By.id("MainHeader_txtSearchword"));
+    const input = await driver.findElement(By.id("keyword"));
     // const searchButton = await driver.findElement(By.id("MainHeader_btnSearch"));
 
     //* enter in the SKU to the input, and click the search button
