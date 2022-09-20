@@ -2,13 +2,7 @@ import { google } from "googleapis";
 import { launchSelenium } from "./Utilities/selenium/selenium";
 import { readSKUsFromSheet } from "./Utilities/Sheets/SheetReader";
 import { writeValuesToSheet } from "./Utilities/Sheets/SheetWriter";
-
-export interface ModelKit {
-  scrapable: boolean;
-  rawSKU: string;
-  prefix: string;
-  SKU: number;
-}
+import * as Types from "../Types";
 
 export default async function dostuff() {
   return new Promise(async (resolve, reject) => {
@@ -18,15 +12,15 @@ export default async function dostuff() {
 
       //* transform the data by flattening the rows...
       const RawSKUArray = rows.flat();
-      let ModelKitArray: ModelKit[] = [];
+      let ModelKitArray: Types.ModelKit[] = [];
       console.log(`raw sku array next`);
       console.log(RawSKUArray);
 
       //* ...transform the data and remove the prefix
       RawSKUArray.forEach((rawSKU) => {
-        // niceSKU is the part of the rawSKU after the dash
-        const modelSKU = Number(rawSKU.split("-")[1]);
+        // Prefix is the letters before the dash, SKU is the number after the dash
         const modelPrefix = rawSKU.split("-")[0];
+        const modelSKU = Number(rawSKU.split("-")[1]);
 
         // if the data is undefined, push the raw data
         if (!modelSKU || !modelPrefix) {
@@ -40,7 +34,7 @@ export default async function dostuff() {
       console.log(`nice sku array next`);
       console.log(ModelKitArray);
       //* this runs the selenium scraper
-      // const data = await launchSelenium(ModelKitArray);
+      const data = await launchSelenium(ModelKitArray);
 
       // await writeValuesToSheet(data);
 

@@ -3,34 +3,34 @@ import { Builder, By, Capabilities } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
 import { scraper_1999co } from "../Scrapers/1999co";
 import { scraper_kotobukiya } from "../Scrapers/kotobukiya";
+import * as Types from "../../../Types";
 
 //* source the firefox binaries from the project directory instead of elsewhere on the machine
 const geckopath = path.join(__dirname, "../../../../src/Utilities/selenium/");
 Object.assign(process.env, { ...process.env, PATH: `${process.env.Path};${geckopath}` });
 
-interface SKUResult {
-  SKU: string;
-  releaseDateTR: string;
-}
-
-const scrapers = { gcz: scraper_1999co, koto: scraper_kotobukiya };
+const Scrapers = { gcz: scraper_1999co, koto: scraper_kotobukiya };
+// Scrapers[${prefix}](Selenium, modelKit)
 
 /**
  * This function launches a headless firefox browser via Selenium,
  * and scrapes release data information from specified websites using the provided SKU numbers.
- * @param SKUArray An array of SKU numbers with which Selenium will query the given websites.
+ * @param ModelKitArray An array of SKU numbers with which Selenium will query the given websites.
  * @returns Returns a Promise, which resolves into an array of objects containing the SKU, and the release date.
  */
-export async function launchSelenium(SKUArray: string[]) {
+export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
   //* define an empty array to place the SKU results into
-  const results: SKUResult[] = [];
+  const results: Types.ModelKitResult[] = [];
 
   //* define capabilities for the browser - 'eager' ignores loading css and images for performance
   let caps = new Capabilities();
   caps.setPageLoadStrategy("eager");
 
   //* build a new selenium firefox browser with the given options / capabilities
-  console.log(`look here`);
+  console.log("\n");
+  console.log(`Selenium is building...`);
+  console.log("\n");
+
   // console.log({ path: process.env });
 
   let Selenium = await new Builder()
@@ -42,20 +42,26 @@ export async function launchSelenium(SKUArray: string[]) {
     .build();
 
   //* iterate over the SKU array, and for each SKU in the array, call scraper with the given SKU number
-  for await (const [i, SKU] of SKUArray.entries()) {
-    //* await the result of scraper
-    const res = await scraper(Selenium, SKU);
 
-    //* log progress
-    console.log(`Finished scraping SKU: ${i + 1} out of ${SKUArray.length}`);
+  async function ScraperLoop() {
+    for (let i = 0; i <= ModelKitArray.length - 1; i++) {
+      const modelKit = ModelKitArray[i];
+      const index = i;
+      //* await the result of scraper
+      // const res = await scraper(Selenium, modelKit);
 
-    //* push the results into the results array
-    results.push(res);
+      // console.log({ modelKit });
+      //* log progress
+      console.log(`Finished scraping SKU: ${index + 1} out of ${ModelKitArray.length}`);
+
+      //* push the results into the results array
+      // results.push(res);
+    }
   }
-  //* when the loop has finished scraping, the browser must quit
-  await Selenium.quit();
+  ScraperLoop();
 
-  //* when the iteration is complete, return the results array
+  //* when the loop has finished scraping, the browser must quit, and return the results
+  await Selenium.quit();
   return results;
 }
 
