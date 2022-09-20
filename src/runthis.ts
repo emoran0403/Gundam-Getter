@@ -13,8 +13,8 @@ export default async function dostuff() {
       //* transform the data by flattening the rows...
       const RawSKUArray = rows.flat();
       let ModelKitArray: Types.ModelKit[] = [];
-      console.log(`raw sku array next`);
-      console.log(RawSKUArray);
+      // console.log(`raw sku array next`);
+      // console.log(RawSKUArray);
 
       //* ...transform the data and remove the prefix
       RawSKUArray.forEach((rawSKU) => {
@@ -31,8 +31,8 @@ export default async function dostuff() {
         }
       });
 
-      console.log(`nice sku array next`);
-      console.log(ModelKitArray);
+      // console.log(`nice sku array next`);
+      // console.log(ModelKitArray);
       //* this runs the selenium scraper
       const data = await launchSelenium(ModelKitArray);
 

@@ -28,7 +28,6 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
   //* build a new selenium firefox browser with the given options / capabilities
   console.log("\n");
   console.log(`Selenium is building...`);
-  console.log("\n");
 
   // console.log({ path: process.env });
 
@@ -43,17 +42,16 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
   console.log("\n");
   console.log(`Finished building Selenium`);
   console.log("\n");
+  console.log(`Scraping ${ModelKitArray.length} SKUs`);
+  console.log("\n");
 
   //* iterate over the SKU array, and for each SKU in the array, call scraper with the given SKU number
-
-  console.log(`scraperloop should run for ${ModelKitArray.length} iterations`);
-
   async function ScraperLoop() {
     for (let i = 0; i <= ModelKitArray.length - 1; i++) {
       const modelKit = ModelKitArray[i];
       const index = i;
-      console.log(`iteration ${i}`);
-      console.log({ modelKit });
+      // console.log(`iteration ${i}`);
+      // console.log({ modelKit });
 
       //* await the result of scraper
       //! Need a safe way to handle the case where a prefix is given that is not accounted for
@@ -63,7 +61,8 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
        * passing in the Selenium Browser and the modelKit object.
        */
       const res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
-      console.log({ message: "this is res", res });
+      // const res = await scraper_1999co(Selenium, modelKit);
+      // console.log({ message: "this is res", res });
       //* log progress
       console.log(`Finished scraping SKU: ${index + 1} out of ${ModelKitArray.length}`);
 
@@ -71,16 +70,16 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
       results.push(res);
     }
   }
-  console.log(`before ScraperLoop function`);
-  ScraperLoop();
-  console.log(`after ScraperLoop function`);
+  // console.log(`before ScraperLoop function`);
+  await ScraperLoop();
+  // console.log(`after ScraperLoop function`);
 
   //* when the loop has finished scraping, the browser must quit, and return the results
-  console.log(`before quitting`);
+  // console.log(`before quitting`);
 
   await Selenium.quit();
-  console.log(`after quitting`);
-  console.log({ message: `this is results`, results });
+  // console.log(`after quitting`);
+  // console.log({ message: `this is results`, results });
   return results;
 }
 
@@ -132,24 +131,6 @@ const scraper = async (driver, SKU: string) => {
     return { SKU, releaseDateTR: `=HYPERLINK("${site1URL}","Manually verify")` };
   }
 };
-
-//* scraper structure for additional sites, dont use a big try catch or a nasty switch
-
-// import gcz from './1999';
-// import prz from './otherScraper';
-
-// const scrapers = { gcz, prz };
-
-// function(SKU, prefix) {
-//   await scrapers[prefix](SKU)
-// }
-
-// import 1999scraper from './1999';
-// import otherScraper from './otherScraper';
-
-// function(SKU, prefix) {
-//   await scrapers[prefix](SKU)
-// }
 
 //@ workflow
 // paste data to sheet
