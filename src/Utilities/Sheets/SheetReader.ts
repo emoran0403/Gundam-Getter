@@ -14,15 +14,8 @@ export const readSKUsFromSheet = async () => {
   const service = google.sheets({ version: "v4", auth });
 
   //* return a new promise that will resolve with an array of SKUs
-
   return new Promise<string[][]>((resolve, reject) => {
     //* instruct service to retrieve the specified data from the sheet
-
-    // console.log({
-    //   message: "check the last 5 characters of the spreadsheet ID matches the following...",
-    //   spreadsheetID: GOOGLEINFO.spreadSheetID?.slice(-5),
-    // });
-
     service.spreadsheets.values.get(
       {
         spreadsheetId: "13doZtU-apPVwpVs4yKRUvo1RLzIzmpD9OWjBQp946KA",
@@ -39,6 +32,7 @@ export const readSKUsFromSheet = async () => {
         //* define the rows to be returned
         const rows = res!.data.values;
         // console.log({ rows });
+
         //* if there are rows, resolve with the rows
         if (rows!.length) {
           // console.log(`rows below:`);

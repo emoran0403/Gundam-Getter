@@ -21,7 +21,7 @@ const scrapers = { gcz: scraper_1999co, koto: scraper_kotobukiya };
  * @param SKUArray An array of SKU numbers with which Selenium will query the given websites.
  * @returns Returns a Promise, which resolves into an array of objects containing the SKU, and the release date.
  */
-export async function getDates(SKUArray: string[]) {
+export async function launchSelenium(SKUArray: string[]) {
   //* define an empty array to place the SKU results into
   const results: SKUResult[] = [];
 
