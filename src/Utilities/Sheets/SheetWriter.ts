@@ -16,10 +16,13 @@ interface SKUResult {
  */ //@ts-ignore
 export const writeValuesToSheet = async (ModelKitResult: Types.ModelKitResult[]) => {
   //* transform incoming data into writable format
+
   let releaseDateData: string[][] = [];
+  let scrapedDateData: string[][] = [];
+
   ModelKitResult.forEach((Result) => {
-    let dateCell = [Result.releaseDate];
-    releaseDateData.push(dateCell);
+    releaseDateData.push([Result.releaseDate]);
+    scrapedDateData.push([Result.scrapedDate]);
   });
 
   //@ make the auth client
@@ -30,8 +33,12 @@ export const writeValuesToSheet = async (ModelKitResult: Types.ModelKitResult[])
   const service = google.sheets({ version: "v4", auth });
 
   // requestBody data here
-  const requestBody = {
+  const requestBody_ReleaseDates = {
     values: releaseDateData,
+  };
+
+  const requestBody_ScrapedDates = {
+    values: scrapedDateData,
   };
 
   // test data here
@@ -42,21 +49,41 @@ export const writeValuesToSheet = async (ModelKitResult: Types.ModelKitResult[])
 
   //* define the required by the spreadsheets API
   const spreadsheetId = "13doZtU-apPVwpVs4yKRUvo1RLzIzmpD9OWjBQp946KA";
-  const range = "Sheet1!B5:B";
+  const range_ReleaseDates = "Sheet1!B5:B";
+  const range_ScrapedDates = "Sheet1!C5:C";
   const valueInputOption = `USER_ENTERED`;
 
+  //* await the results of updating the release dates
   try {
-    //* await the results of updating the sheet with the given parameters
     const result = await service.spreadsheets.values.update({
       spreadsheetId,
-      range,
+      range: range_ReleaseDates,
       valueInputOption,
-      requestBody,
+      requestBody: requestBody_ReleaseDates,
     });
 
     //* if there was a result, log a message
     if (result) {
-      console.log(`Sheet has been updated`);
+      console.log(`Updated Release Dates`);
+    }
+    // return result;
+  } catch (err) {
+    //* if there were any errors, log a message
+    console.log(err);
+  }
+
+  //* await the results of updating the sheet with today's date
+  try {
+    const result = await service.spreadsheets.values.update({
+      spreadsheetId,
+      range: range_ScrapedDates,
+      valueInputOption,
+      requestBody: requestBody_ScrapedDates,
+    });
+
+    //* if there was a result, log a message
+    if (result) {
+      console.log(`Updated Today's Dates`);
     }
     // return result;
   } catch (err) {

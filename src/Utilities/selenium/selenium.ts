@@ -40,22 +40,30 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
     .forBrowser("firefox")
     .build();
 
+  console.log("\n");
+  console.log(`Finished building Selenium`);
+  console.log("\n");
+
   //* iterate over the SKU array, and for each SKU in the array, call scraper with the given SKU number
+
+  console.log(`scraperloop should run for ${ModelKitArray.length} iterations`);
 
   async function ScraperLoop() {
     for (let i = 0; i <= ModelKitArray.length - 1; i++) {
       const modelKit = ModelKitArray[i];
       const index = i;
+      console.log(`iteration ${i}`);
+      console.log({ modelKit });
 
       //* await the result of scraper
-      //! Need a safe way to handle the case wherer a prefix is given that is not accounted for
+      //! Need a safe way to handle the case where a prefix is given that is not accounted for
+
       /**
        * Call the scraper function that corresponds with the given prefix
        * passing in the Selenium Browser and the modelKit object.
        */
       const res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
-
-      // console.log({ modelKit });
+      console.log({ message: "this is res", res });
       //* log progress
       console.log(`Finished scraping SKU: ${index + 1} out of ${ModelKitArray.length}`);
 
@@ -63,10 +71,16 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
       results.push(res);
     }
   }
+  console.log(`before ScraperLoop function`);
   ScraperLoop();
+  console.log(`after ScraperLoop function`);
 
   //* when the loop has finished scraping, the browser must quit, and return the results
+  console.log(`before quitting`);
+
   await Selenium.quit();
+  console.log(`after quitting`);
+  console.log({ message: `this is results`, results });
   return results;
 }
 
