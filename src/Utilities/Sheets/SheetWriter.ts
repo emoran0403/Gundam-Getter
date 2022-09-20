@@ -1,23 +1,25 @@
 import { GOOGLEINFO } from "../../config";
 import { google } from "googleapis";
-
+import * as Types from "../../../Types";
 // const google = google()
 interface SKUResult {
   SKU: string;
   releaseDateTR: string;
 }
 
+//! decide where and what data to place onto the sheet
+
 /**
  * This function writes the release date values to the sheet.
  * @param authClient An authorized client.
- * @param webScrapedData The array of SKUResult objects.
+ * @param ModelKitResult The array of SKUResult objects.
  */ //@ts-ignore
-export const writeValuesToSheet = async (webScrapedData: SKUResult[]) => {
+export const writeValuesToSheet = async (ModelKitResult: Types.ModelKitResult[]) => {
   //* transform incoming data into writable format
-  let goodData: string[][] = [];
-  webScrapedData.forEach((SKUResult) => {
-    let cell = [SKUResult.releaseDateTR];
-    goodData.push(cell);
+  let releaseDateData: string[][] = [];
+  ModelKitResult.forEach((Result) => {
+    let dateCell = [Result.releaseDate];
+    releaseDateData.push(dateCell);
   });
 
   //@ make the auth client
@@ -29,7 +31,7 @@ export const writeValuesToSheet = async (webScrapedData: SKUResult[]) => {
 
   // requestBody data here
   const requestBody = {
-    values: goodData,
+    values: releaseDateData,
   };
 
   // test data here

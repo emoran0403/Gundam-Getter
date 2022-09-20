@@ -9,8 +9,7 @@ import * as Types from "../../../Types";
 const geckopath = path.join(__dirname, "../../../../src/Utilities/selenium/");
 Object.assign(process.env, { ...process.env, PATH: `${process.env.Path};${geckopath}` });
 
-const Scrapers = { gcz: scraper_1999co, koto: scraper_kotobukiya };
-// Scrapers[${prefix}](Selenium, modelKit)
+const Scrapers: Types.ScraperList = { gcz: scraper_1999co, koto: scraper_kotobukiya };
 
 /**
  * This function launches a headless firefox browser via Selenium,
@@ -47,15 +46,21 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
     for (let i = 0; i <= ModelKitArray.length - 1; i++) {
       const modelKit = ModelKitArray[i];
       const index = i;
+
       //* await the result of scraper
-      // const res = await scraper(Selenium, modelKit);
+      //! Need a safe way to handle the case wherer a prefix is given that is not accounted for
+      /**
+       * Call the scraper function that corresponds with the given prefix
+       * passing in the Selenium Browser and the modelKit object.
+       */
+      const res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
 
       // console.log({ modelKit });
       //* log progress
       console.log(`Finished scraping SKU: ${index + 1} out of ${ModelKitArray.length}`);
 
       //* push the results into the results array
-      // results.push(res);
+      results.push(res);
     }
   }
   ScraperLoop();

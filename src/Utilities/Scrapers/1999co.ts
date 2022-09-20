@@ -1,38 +1,49 @@
+import * as Types from "../../../Types";
 import { By } from "selenium-webdriver";
 
+const thisScraperSite = "https://1999.co.jp/";
+
 /**
- * @param SKU An SKU number to used to search the specified websites, ideally finding a release date.
- * @returns
- * * If successful, returns an object containing the SKU and release date.
- * * If not, returns an object containing the SKU and a link to the search results page.
+ * Scraper for the website "https://1999.co.jp/"
+ * @param driver The Selenium WebDriver
+ * @param modelKit A modelKit object
+ * @returns An object of Type: ModelKitResult
+ * * IF successful, the release date will be displayed as a link to the website
+ * * If unsuccessful, "Not Found" will be displayed as a link to the website
  */ //@ts-ignore
-export const scraper_1999co = async (driver, SKU: string) => {
+export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<Types.ModelKitResult> => {
   try {
-    //* naivgate to the first website
-    await driver.get("https://1999.co.jp/");
+    //* naivgate to the website
+    await driver.get(thisScraperSite);
 
     //* find the input and search button
     const input = await driver.findElement(By.id("MainHeader_txtSearchword"));
     const searchButton = await driver.findElement(By.id("MainHeader_btnSearch"));
 
     //* enter in the SKU to the input, and click the search button
-    await input.sendKeys(SKU);
+    await input.sendKeys(modelKit.SKU);
     await searchButton.click();
 
     //* find the release date in the DOM, and retrieve the innerText
-    const releaseDateTR = await driver.findElement(By.id("masterBody_trSalesDate")).getAttribute("innerText");
+    const releaseDate = await driver.findElement(By.id("masterBody_trSalesDate")).getAttribute("innerText");
 
-    //* return an object containing the SKU and release date
-    return { SKU, releaseDateTR };
+    //* grab the site URL to allow for linking to the site from the sheet
+    const siteURL = await driver.getCurrentUrl();
+
+    //* IF Successful - return an object with the data
+    return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate: Date.now() };
   } catch (error) {
-    //* if the first website did not have the item, log it, and check other sites
-    console.log(`SKU ${SKU} was not found on https://1999.co.jp/`);
+    //* if the website did not have the item, log it
+    console.log(`SKU ${modelKit.SKU} was not found on ${thisScraperSite}`);
 
-    // console.log(error);
-    //* if the release date cannot be found, get the URL
-    const site1URL = await driver.getCurrentUrl();
+    //* grab the site URL to allow for linking to the site from the sheet
+    const siteURL = await driver.getCurrentUrl();
 
-    //* return the object with the url formatted as a GoogleSheet link for manual verification
-    return { SKU, releaseDateTR: `=HYPERLINK("${site1URL}","Manually verify")` };
+    //* IF Unsuccessful - return the object with the data and unsuccessful message
+    return {
+      ...modelKit,
+      releaseDate: `=HYPERLINK("${siteURL}","Not Found")`,
+      scrapedDate: Date.now(),
+    };
   }
 };

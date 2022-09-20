@@ -6,7 +6,11 @@ export interface ModelKit {
 }
 
 export interface ModelKitResult extends ModelKit {
-  releaseDateTR: string;
-  website: string;
+  releaseDate: string;
   scrapedDate: string;
+}
+
+export interface ScraperList {
+  gcz: Function;
+  koto: Function;
 }

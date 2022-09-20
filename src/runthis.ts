@@ -36,7 +36,7 @@ export default async function dostuff() {
       //* this runs the selenium scraper
       const data = await launchSelenium(ModelKitArray);
 
-      // await writeValuesToSheet(data);
+      await writeValuesToSheet(data);
 
       resolve(`looking good`);
     } catch (error) {
