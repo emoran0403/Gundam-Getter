@@ -1,19 +1,19 @@
 import * as path from "path";
-
-const geckopath = path.join(__dirname, "../../../../src/Utilities/selenium/");
-
-Object.assign(process.env, { ...process.env, PATH: `${process.env.Path};${geckopath}` });
-
-// console.log({ geckomaybe: geckopath });
-// console.log(__dirname);
-
 import { Builder, By, Capabilities } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
+import { scraper_1999co } from "../Scrapers/1999co";
+import { scraper_kotobukiya } from "../Scrapers/kotobukiya";
+
+//* source the firefox binaries from the project directory instead of elsewhere on the machine
+const geckopath = path.join(__dirname, "../../../../src/Utilities/selenium/");
+Object.assign(process.env, { ...process.env, PATH: `${process.env.Path};${geckopath}` });
 
 interface SKUResult {
   SKU: string;
   releaseDateTR: string;
 }
+
+const scrapers = { gcz: scraper_1999co, koto: scraper_kotobukiya };
 
 /**
  * This function launches a headless firefox browser via Selenium,
@@ -25,20 +25,11 @@ export async function getDates(SKUArray: string[]) {
   //* define an empty array to place the SKU results into
   const results: SKUResult[] = [];
 
-  //* define capabilities for the browser
-  /**
-   * This will make Selenium WebDriver to wait until the initial HTML document has been completely loaded and parsed
-   * and discards loading of stylesheets, images and subframes.
-   * When set to eager, Selenium WebDriver waits until DOMContentLoaded event fire is returned.
-   */
+  //* define capabilities for the browser - 'eager' ignores loading css and images for performance
   let caps = new Capabilities();
   caps.setPageLoadStrategy("eager");
 
-  //   Firefox binaries to /tmp/build_15a7696b/vendor/firefox
-  // -----> Extracting Geckodriver binaries to /tmp/build_15a7696b/vendor/geckodriver
-
   //* build a new selenium firefox browser with the given options / capabilities
-  // .setBinary(`/app/vendor/firefox/firefox`)
   console.log(`look here`);
   // console.log({ path: process.env });
 
@@ -49,8 +40,6 @@ export async function getDates(SKUArray: string[]) {
     .withCapabilities(caps)
     .forBrowser("firefox")
     .build();
-
-  // console.log({ Selenium });
 
   //* iterate over the SKU array, and for each SKU in the array, call scraper with the given SKU number
   for await (const [i, SKU] of SKUArray.entries()) {
@@ -63,8 +52,6 @@ export async function getDates(SKUArray: string[]) {
     //* push the results into the results array
     results.push(res);
   }
-  // console.log(`getDates function results below:`);
-  // console.log(results);
   //* when the loop has finished scraping, the browser must quit
   await Selenium.quit();
 
@@ -79,18 +66,6 @@ export async function getDates(SKUArray: string[]) {
  * * If not, returns an object containing the SKU and a link to the search results page.
  */ //@ts-ignore
 const scraper = async (driver, SKU: string) => {
-  // //* define capabilities for the browser
-  // // eager directs selenium to begin once the DOM tree is loaded
-  // let caps = new Capabilities();
-  // caps.setPageLoadStrategy("eager");
-
-  // //* build a new selenium firefox browser with the given options / capabilities
-  // let driver = await new Builder()
-  //   .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
-  //   .withCapabilities(caps)
-  //   .forBrowser("firefox")
-  //   .build();
-
   //* If selenium cannot find an element, or encounters an issue, it throws an error
   try {
     //* naivgate to the first website
@@ -146,8 +121,6 @@ const scraper = async (driver, SKU: string) => {
 
 // import 1999scraper from './1999';
 // import otherScraper from './otherScraper';
-
-// const scrapers = { gcz: 1999scraper, prz: otherScraper };
 
 // function(SKU, prefix) {
 //   await scrapers[prefix](SKU)
