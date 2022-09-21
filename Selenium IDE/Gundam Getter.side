@@ -1,0 +1,139 @@
+{
+  "id": "53220b98-9ebe-401a-aaeb-e0ec280f499b",
+  "version": "2.0",
+  "name": "Gundam Getter",
+  "url": "https://shop.kotobukiya.co.jp/shop/g/g4934054033898/",
+  "tests": [{
+    "id": "de3e6f3d-f990-4a31-b19b-7d02cd6ee95c",
+    "name": "koto scrape 1",
+    "commands": [{
+      "id": "b6bc5818-1559-4744-8f31-91e433358abb",
+      "comment": "",
+      "command": "open",
+      "target": "/shop/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2001a34f-4262-4280-92b6-fef774846cfd",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "550x691",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "12bcb366-5ed8-4f4c-9610-867640496da2",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.slick-current > a > img",
+      "targets": [
+        ["css=.slick-current > a > img", "css:finder"],
+        ["xpath=//img[@alt='ぴたぬい ときメモGS']", "xpath:img"],
+        ["xpath=//div/div/div/div[2]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dc7b9f62-2719-4282-8610-a3542c9348ec",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.slick-current > a > img",
+      "targets": [
+        ["css=.slick-current > a > img", "css:finder"],
+        ["xpath=//img[@alt='ぴたぬい ときメモGS']", "xpath:img"],
+        ["xpath=//div/div/div/div[2]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6c1c7f82-b341-4a56-93f0-91afcd7b2101",
+      "comment": "",
+      "command": "click",
+      "target": "id=keyword",
+      "targets": [
+        ["id=keyword", "id"],
+        ["name=keyword", "name"],
+        ["css=#keyword", "css:finder"],
+        ["xpath=//input[@id='keyword']", "xpath:attributes"],
+        ["xpath=//div[@id='header_search_box']/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ed645224-49ba-453b-87b6-11fd3822dd7f",
+      "comment": "",
+      "command": "click",
+      "target": "id=keyword",
+      "targets": [
+        ["id=keyword", "id"],
+        ["name=keyword", "name"],
+        ["css=#keyword", "css:finder"],
+        ["xpath=//input[@id='keyword']", "xpath:attributes"],
+        ["xpath=//div[@id='header_search_box']/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "10940e3d-3622-4553-94b4-ef412bc96b53",
+      "comment": "",
+      "command": "type",
+      "target": "id=keyword",
+      "targets": [
+        ["id=keyword", "id"],
+        ["name=keyword", "name"],
+        ["css=#keyword", "css:finder"],
+        ["xpath=//input[@id='keyword']", "xpath:attributes"],
+        ["xpath=//div[@id='header_search_box']/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "4934054036295"
+    }, {
+      "id": "754abccb-2236-4a99-8e85-0513ab433384",
+      "comment": "",
+      "command": "click",
+      "target": "name=image",
+      "targets": [
+        ["name=image", "name"],
+        ["css=#header_search_box input:nth-child(3)", "css:finder"],
+        ["xpath=//input[@name='image']", "xpath:attributes"],
+        ["xpath=//div[@id='header_search_box']/form/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a425c5d8-9021-4c41-9137-b77693526c48",
+      "comment": "",
+      "command": "click",
+      "target": "css=.desc > .name",
+      "targets": [
+        ["css=.desc > .name", "css:finder"],
+        ["xpath=//div[@id='item']/ul/li/a/div[2]/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/ul/li/a/div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "43bd7c62-e7d6-4095-a205-bafc8a2b9514",
+      "comment": "",
+      "command": "click",
+      "target": "css=.goods_about > p:nth-child(2)",
+      "targets": [
+        ["css=.goods_about > p:nth-child(2)", "css:finder"],
+        ["xpath=//div[@id='gallery']/div[3]/div[2]/p[2]", "xpath:idRelative"],
+        ["xpath=//p[2]", "xpath:position"],
+        ["xpath=//p[contains(.,'発売月：2022年1月28日')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "5aea9256-29ab-4679-a3c4-4301d2f0a442",
+    "name": "koto scrape 2",
+    "commands": []
+  }],
+  "suites": [{
+    "id": "20b4ea4f-b87c-4f93-a0bd-ddd74b192ea5",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["de3e6f3d-f990-4a31-b19b-7d02cd6ee95c"]
+  }],
+  "urls": ["https://shop.kotobukiya.co.jp/"],
+  "plugins": []
+}
