@@ -19,7 +19,7 @@ wow.c("pizza2222"); // TypeError: wow.c is not a function == this will throw an 
 
 //# run thru prefixes, adding unsuccessful skus to a new list,
 //@ iterate through the prefixes with their specific scraper, and if unsuccessful, add the sku to a list
-//@ after first run through, write the quick data, and then start again with the wide nets on the unsuccessful list
+//@ after first run through, write the data, and then start again with the wide nets on the unsuccessful list
 
 for (let i = 0; i < SkuCount; i++) {
   try {
