@@ -5,6 +5,13 @@ import dayjs from "dayjs";
 const thisScraperSite = "https://1999.co.jp/";
 
 /**
+ * Strategy:
+ * Locate the search input and search button
+ * Type SKU into the input and click the search button
+ * Grab the release date
+ */
+
+/**
  * Scraper for the website "https://1999.co.jp/"
  * @param driver The Selenium WebDriver
  * @param modelKit A modelKit object
@@ -14,7 +21,7 @@ const thisScraperSite = "https://1999.co.jp/";
  */ //@ts-ignore
 export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<Types.ModelKitResult> => {
   try {
-    //* naivgate to the website
+    //* navigate to the website
     await driver.get(thisScraperSite);
 
     //* find the input and search button

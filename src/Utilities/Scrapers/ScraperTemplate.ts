@@ -14,7 +14,7 @@ const thisScraperSite = "SITE_NAME_HERE";
  */ //@ts-ignore
 export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<Types.ModelKitResult> => {
   try {
-    //* naivgate to the website
+    //* navigate to the website
     await driver.get(thisScraperSite);
 
     //* find the input and search button
