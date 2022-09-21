@@ -5,6 +5,19 @@ import dayjs from "dayjs";
 const thisScraperSite = "SITE_NAME_HERE";
 
 /**
+ * Scraper Strategy: SKU into URL injection
+ * Inject the SKU into the URL
+ * Grab the release date
+ * (kotobukiya)
+ *
+ * Scraper Strategy: Input and Search
+ * Locate the search input and search button
+ * Type SKU into the input and click the search button
+ * Grab the release date
+ * (1999co)
+ */
+
+/**
  * Scraper for the website "SITE_NAME_HERE"
  * @param driver The Selenium WebDriver
  * @param modelKit A modelKit object
@@ -17,23 +30,27 @@ export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<
     //* navigate to the website
     await driver.get(thisScraperSite);
 
+    //@@@@@ Input and Search
     //* find the input and search button
     //# const input = await driver.findElement(By.id("MainHeader_txtSearchword"));
     //# const searchButton = await driver.findElement(By.id("MainHeader_btnSearch"));
-
     //* enter in the SKU to the input, and click the search button
     //# await input.sendKeys(modelKit.SKU);
     //# await searchButton.click();
-
     //* find the release date in the DOM, and retrieve the innerText
     //# const releaseDate = await driver.findElement(By.id("masterBody_trSalesDate")).getAttribute("innerText");
 
+    //@@@@@ SKU into URL injection
+    //* Inject the SKU into the URL
+    //# await driver.get(`https://shop.kotobukiya.co.jp/shop/g/g${modelKit.SKU}/`);
+    //* find the release date in the DOM, and retrieve the innerText
+    //# const releaseDate = await driver.findElement(By.css(".goods_about > p:nth-child(2)")).getAttribute("innerText");
+
+    //@@@@@ COMMON STEPS
     //* grab the site URL to allow for linking to the site from the sheet
     const siteURL = await driver.getCurrentUrl();
-
     //* grab today's date for the scrapedDate
     const scrapedDate = dayjs().format("MMMM/DD/YYYY");
-
     //* IF Successful - return an object with the data
     // return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate };
   } catch (error) {

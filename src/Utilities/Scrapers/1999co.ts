@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 const thisScraperSite = "https://1999.co.jp/";
 
 /**
- * Strategy:
+ * Scraper Strategy: Input and Search
  * Locate the search input and search button
  * Type SKU into the input and click the search button
  * Grab the release date

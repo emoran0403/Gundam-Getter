@@ -3,10 +3,10 @@ import { By } from "selenium-webdriver";
 import dayjs from "dayjs";
 
 const thisScraperSite = "https://shop.kotobukiya.co.jp/shop/";
-const baseURL = "https://shop.kotobukiya.co.jp/shop/g/g4934054033898/";
+const baseURL = "https://shop.kotobukiya.co.jp/shop/g/g<SKU_HERE>/";
 
 /**
- * Strategy:
+ * Scraper Strategy: SKU into URL injection
  * Inject the SKU into the URL
  * Grab the release date
  */

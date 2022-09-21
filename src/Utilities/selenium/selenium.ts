@@ -53,9 +53,9 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
       // console.log(`iteration ${i}`);
       // console.log({ modelKit });
 
-      //* await the result of scraper
       //! Need a safe way to handle the case where a prefix is given that is not accounted for
-
+      //! check wow.js
+      //* await the result of scraper
       /**
        * Call the scraper function that corresponds with the given prefix
        * passing in the Selenium Browser and the modelKit object.
@@ -76,58 +76,8 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
 
   //* when the loop has finished scraping, the browser must quit, and return the results
   // console.log(`before quitting`);
-
   await Selenium.quit();
   // console.log(`after quitting`);
   // console.log({ message: `this is results`, results });
   return results;
 }
-
-/**
- * @param SKU An SKU number to used to search the specified websites, ideally finding a release date.
- * @returns
- * * If successful, returns an object containing the SKU and release date.
- * * If not, returns an object containing the SKU and a link to the search results page.
- */ //@ts-ignore
-const scraper = async (driver, SKU: string) => {
-  //* If selenium cannot find an element, or encounters an issue, it throws an error
-  try {
-    //* naivgate to the first website
-    await driver.get("https://1999.co.jp/");
-
-    //* find the input and search button
-    const input = await driver.findElement(By.id("MainHeader_txtSearchword"));
-    const searchButton = await driver.findElement(By.id("MainHeader_btnSearch"));
-
-    //* enter in the SKU to the input, and click the search button
-    await input.sendKeys(SKU);
-    await searchButton.click();
-
-    //* find the release date in the DOM, and retrieve the innerText
-    const releaseDateTR = await driver.findElement(By.id("masterBody_trSalesDate")).getAttribute("innerText");
-
-    //* return an object containing the SKU and release date
-    return { SKU, releaseDateTR };
-  } catch (error) {
-    //# add code for additional sites within additional trycatch blocks, nesting further within the catch block
-    //* if the first website did not have the item, log it, and check other sites
-    console.log(`SKU ${SKU} was not found on https://1999.co.jp/, will try site 2 once i code it`);
-    // console.log(error);
-    try {
-      //test site 2
-      //return { SKU, releaseDateTR };
-    } catch (error) {
-      // console.log(`SKU ${SKU} was not found on site 2, will try site 3 once i code it`);
-      // try {
-      //   // test site 3
-      //   //return { SKU, releaseDateTR };
-      // } catch (error) {
-      //   // return { SKU, releaseDateTR: `could not find on any site` };
-      // }
-    }
-    //* if the release date cannot be found, get the URL
-    const site1URL = await driver.getCurrentUrl();
-    //* return the object with the url formatted as a GoogleSheet link for manual verification
-    return { SKU, releaseDateTR: `=HYPERLINK("${site1URL}","Manually verify")` };
-  }
-};
