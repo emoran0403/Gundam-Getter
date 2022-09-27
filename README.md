@@ -30,7 +30,7 @@ Gundam Getter reads the SKU data from Google Sheets, then the server launches a 
 ### View Demo
 
 <div align="center"> 
-<p>put the video link here</p>
+<p>video link coming soon</p>
 </div>
 
 <!-- TechStack -->
