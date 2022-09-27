@@ -1,34 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
 
-## Getting Started
+  <h1>Gundam Getter ReadME</h1>
+  
+</div>
 
-First, run the development server:
+<br />
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<!-- Table of Contents -->
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Table of Contents
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- [About the Project](#about-the-project)
+  - [Screenshots](#screenshots)
+  - [Tech Stack](#tech-stack)
+  - [Features](#features)
+- [Roadmap](#roadmap)
+- [Contact](#contact)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<!-- About the Project -->
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## About the Project
 
-## Learn More
+### Overview
 
-To learn more about Next.js, take a look at the following resources:
+My friend at Gundam Planet maintains a Google Sheet with 3000+ entries for upcoming model kit release dates for their customers. Updating this list requires checking one of their many distributors' websites for the information. This was done manually, and updating the entire list required around 8 hours of manual data entry.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Gundam Getter reads the SKU data from Google Sheets, then the server launches a headless Firefox browser via Selenium to scrape model kit release dates from select websites, then writes that data back to a Google Sheet.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### View Demo
 
-## Deploy on Vercel
+<div align="center"> 
+<p>put the video link here</p>
+</div>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<!-- TechStack -->
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Tech Stack
+
+<details>
+  <summary>Client</summary>
+  <ul>
+    <li>Typescript</li>
+    <li>React.js</li>
+    <li>Next.js</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Server</summary>
+  <ul>
+    <li>Typescript</li>
+    <li>Express.js</li>
+    <li>Node.js</li>
+
+  </ul>
+</details>
+
+<details>
+<summary>Other</summary>
+  <ul>
+    <li>Selenium</li>
+    <li>Google Sheets API</li>
+  </ul>
+</details>
+
+<!-- Features -->
+
+### Features
+
+- Utilizes Google Sheets API to authorize and authenticate read and write requests to the Google Sheet.
+- A headless Selenium Firefox browser to scrape web data.
+- If the release date cannot be found on the page, a link to the page is written to the Google Sheet for manual verification.
+
+<!-- Roadmap -->
+
+## Roadmap
+
+- [ ] Add Selenium sripts for additional websites
+- [ ] Launch multiple Selenium instances to scrape multiple websites in parallel
+- [ ] Enable writing to the sheet after each date is found instead of waiting for all dates
+- [ ] Write the website URL to a new column for spot checking
+
+## Contact
+
+Eric Moran - emoran0403@gmail.com
