@@ -9,6 +9,9 @@ const wow = {
 
 wow.b("pizza"); //  works fine
 wow.c("pizza2222"); // TypeError: wow.c is not a function == this will throw an error
+wow[a]; //returns no error
+wow[c]; // evaluates to undefined, as wow.c has not been declared
+// i can use this falsy evaluation to use a wide net scraper instead of a targeted one
 
 //! which option do i want? - what are the pros and cons of each?
 

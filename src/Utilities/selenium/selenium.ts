@@ -32,7 +32,7 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
   // console.log({ path: process.env });
 
   let Selenium = await new Builder()
-    //! enable headless for production and disable headless for development
+    //@ enable headless for production and disable headless for development
     .setFirefoxOptions(new firefox.Options().headless().windowSize({ width: 1, height: 1 }))
     // .setFirefoxOptions(new firefox.Options())
     .withCapabilities(caps)
@@ -48,20 +48,35 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
   //* iterate over the SKU array, and for each SKU in the array, call scraper with the given SKU number
   async function ScraperLoop() {
     for (let i = 0; i <= ModelKitArray.length - 1; i++) {
+      // define modelKit and index for ease of use
       const modelKit = ModelKitArray[i];
       const index = i;
+      //* log progress
+      console.log(`Started SKU: ${index + 1} out of ${ModelKitArray.length}`);
+
       // console.log(`iteration ${i}`);
       // console.log({ modelKit });
 
-      //! Need a safe way to handle the case where a prefix is given that is not accounted for
-      //! check wow.js
+      // define res here, then update it within the if else block with scraped data
+      let res = {
+        scrapable: true,
+        rawSKU: "",
+        prefix: "",
+        SKU: 0,
+        releaseDate: "",
+        scrapedDate: "",
+      };
+
       //* await the result of scraper
-      /**
-       * Call the scraper function that corresponds with the given prefix
-       * passing in the Selenium Browser and the modelKit object.
-       */
-      const res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
-      // const res = await scraper_1999co(Selenium, modelKit);
+      // if there is a targeted scraper && there is good data, call the scraper and set its return as res
+      if (Scrapers[modelKit.prefix as keyof Types.ScraperList] && modelKit.scrapable) {
+        res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
+      } else {
+        // otherwise, call a wide-reaching scraper and set its return as res
+        //! here we can possibly add more wide scrapers, or add it to a list to "skip for now"
+        res = await scraper_1999co(Selenium, modelKit);
+      }
+
       // console.log({ message: "this is res", res });
       //* log progress
       console.log(`Finished scraping SKU: ${index + 1} out of ${ModelKitArray.length}`);

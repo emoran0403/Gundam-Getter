@@ -22,12 +22,12 @@ export default async function dostuff() {
         const modelPrefix = rawSKU.split("-")[0];
         const modelSKU = Number(rawSKU.split("-")[1]);
 
-        // if the data is undefined, push the raw data
+        // if the data is undefined, push dummy data (scrapable property will be used in to determine which to skip based on bad input data)
         if (!modelSKU || !modelPrefix) {
-          ModelKitArray.push({ scrapable: false, rawSKU: rawSKU, prefix: "", SKU: -1 });
+          ModelKitArray.push({ scrapable: false, rawSKU, prefix: "", SKU: -1 });
         } else {
           // otherwise, we have good data, so push the SKU
-          ModelKitArray.push({ scrapable: true, rawSKU: rawSKU, prefix: modelPrefix, SKU: modelSKU });
+          ModelKitArray.push({ scrapable: true, rawSKU, prefix: modelPrefix, SKU: modelSKU });
         }
       });
 
