@@ -1,3 +1,5 @@
+const { info } = require("console");
+
 const wowee = (string) => {
   console.log(string);
 };
@@ -67,3 +69,31 @@ const goodSuccessScraperTwo = (info) => {
     // return goodSuccessScraperThree()
   }
 };
+
+let result = defined;
+for (let i = 0; i < SKU_ARRAY.length; i++) {
+  // call scraper on this sku
+  let result = scraper();
+  if (result.isgood) {
+    // if initial scraper was successful, continue to the next sku
+    continue;
+  } else {
+    // if it was not successful, run thru the extras
+    for (let j = 0; j < EXTRA_SCRAPER_ARRAY; j++) {
+      result = EXTRA_SCRAPER_ARRAY[j]();
+      if (result.isgood) {
+        // if the result is good, exit the extra scraper loop
+        break;
+      }
+    }
+    //last is good check
+    if (result.isgood) {
+      //push result
+    } else {
+      // push result with sad message
+    }
+    //here is worst case scenario
+  }
+}
+
+//**************************************************************************** */

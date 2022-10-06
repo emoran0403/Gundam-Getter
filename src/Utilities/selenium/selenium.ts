@@ -10,6 +10,7 @@ const geckopath = path.join(__dirname, "../../../../src/Utilities/selenium/");
 Object.assign(process.env, { ...process.env, PATH: `${process.env.Path};${geckopath}` });
 
 const Scrapers: Types.ScraperList = { gcz: scraper_1999co, koto: scraper_kotobukiya };
+const FallbackScrapers = [scraper_1999co];
 
 /**
  * This function launches a headless firefox browser via Selenium,
@@ -68,20 +69,36 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
         found: false,
       };
 
-      //* await the result of scraper
+      /**
+       * this nested if logic can be improved:
+       * i want to call a function from an array (the wide net scrapers)
+       * so call the function, check if we got good results
+       * if we did, break and move to the next sku
+       * if we did not, call the next function
+       */
+
+      //* await the result of scrapers
       // if there is a targeted scraper && there is good data,
       if (Scrapers[modelKit.prefix as keyof Types.ScraperList] && modelKit.scrapable) {
         // call the scraper and set its return as res
         res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
-        // if it wasn't found with the targeted scraper, try again with the wide net
-        if (!res.found) {
-          //! here we can possibly add more wide scrapers, or add it to a list to "skip for now"
-          res = await scraper_1999co(Selenium, modelKit);
+      }
+      // if there is no targeted scraper, or if the modelKit was not found, run thru the fallback scrapers
+      if (!res.found) {
+        //* iterate over fallback scrapers here
+        for await (let scraper of FallbackScrapers) {
+          res = await scraper(Selenium, modelKit);
+          // if the result is good, exit the extra scraper loop
+          if (res.found) {
+            break;
+          }
         }
-      } else {
-        // otherwise, call a wide-reaching scraper and set its return as res
-        //! here we can possibly add more wide scrapers, or add it to a list to "skip for now"
-        res = await scraper_1999co(Selenium, modelKit);
+        // if it wasn't found on any, add a message
+        if (!res.found) {
+          const releaseDateArray = res.releaseDate.split('"');
+          const siteURL = releaseDateArray[1];
+          res.releaseDate = `=HYPERLINK("${siteURL}","Not Found on targeted or fallback scrapers")`;
+        }
       }
 
       // console.log({ message: "this is res", res });
