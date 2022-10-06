@@ -23,6 +23,21 @@ wow[c]; // evaluates to undefined, as wow.c has not been declared
 //# run thru prefixes, adding unsuccessful skus to a new list,
 //@ iterate through the prefixes with their specific scraper, and if unsuccessful, add the sku to a list
 //@ after first run through, write the data, and then start again with the wide nets on the unsuccessful list
+//* i'm not sure how to preserve the insert order here - writing the first list, then resuming the second list may overwrite the first list
+/**
+ * scrape, adding good and bad results to results, adding only bad results to a second list
+ * when done scraping, write all to sheet
+ * iterate over first set of results, scraping only bad results with wide net scrapers
+ * update the bad results to hopefully good results
+ * write all to sheet  ( keeping initial good results in the list will just overwrite the sheet with identical data)
+ * thats how we could maintain the order on the sheet
+ *
+ * does this really help with performance??
+ * i;ll need to scrap everything at least once
+ * and multiple times for the initial fails
+ * the only difference seems to be the time it takes to get results to the sheet
+ */
+// there is a limit of 300 read 300 write per minute, which should not be an issue
 
 for (let i = 0; i < SkuCount; i++) {
   try {

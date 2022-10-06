@@ -25,7 +25,7 @@ const thisScraperSite = "SITE_NAME_HERE";
  * * IF successful, the release date will be displayed as a link to the website
  * * If unsuccessful, "Not Found" will be displayed as a link to the website
  */ //@ts-ignore
-export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<Types.ModelKitResult> => {
+export const scraper_SITENAMEHERE = async (driver, modelKit: Types.ModelKit): Promise<Types.ModelKitResult> => {
   try {
     //* navigate to the website
     await driver.get(thisScraperSite);

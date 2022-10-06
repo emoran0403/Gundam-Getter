@@ -75,6 +75,7 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
         res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
         // if it wasn't found with the targeted scraper, try again with the wide net
         if (!res.found) {
+          //! here we can possibly add more wide scrapers, or add it to a list to "skip for now"
           res = await scraper_1999co(Selenium, modelKit);
         }
       } else {
