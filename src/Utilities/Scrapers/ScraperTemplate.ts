@@ -52,7 +52,8 @@ export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<
     //* grab today's date for the scrapedDate
     const scrapedDate = dayjs().format("MMMM/DD/YYYY");
     //* IF Successful - return an object with the data
-    // return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate };
+    //! uncomment next line when scraper logic is complete
+    // return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate, found: true };
   } catch (error) {
     //* if the website did not have the item, log it
     console.log(`SKU ${modelKit.SKU} was not found on ${thisScraperSite}`);
@@ -67,6 +68,7 @@ export const scraper_1999co = async (driver, modelKit: Types.ModelKit): Promise<
       ...modelKit,
       releaseDate: `=HYPERLINK("${siteURL}","Not Found")`,
       scrapedDate,
+      found: false,
     };
   }
 };

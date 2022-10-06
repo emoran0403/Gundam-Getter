@@ -34,7 +34,7 @@ export const scraper_kotobukiya = async (driver, modelKit: Types.ModelKit): Prom
     const scrapedDate = dayjs().format("MMMM/DD/YYYY");
 
     //* IF Successful - return an object with the data
-    return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate };
+    return { ...modelKit, releaseDate: `=HYPERLINK("${siteURL}","${releaseDate}")`, scrapedDate, found: true };
   } catch (error) {
     //* if the website did not have the item, log it
     console.log(`SKU ${modelKit.SKU} was not found on ${thisScraperSite}`);
@@ -49,6 +49,7 @@ export const scraper_kotobukiya = async (driver, modelKit: Types.ModelKit): Prom
       ...modelKit,
       releaseDate: `=HYPERLINK("${siteURL}","Not Found")`,
       scrapedDate,
+      found: false,
     };
   }
 };

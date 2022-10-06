@@ -65,12 +65,18 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
         SKU: 0,
         releaseDate: "",
         scrapedDate: "",
+        found: false,
       };
 
       //* await the result of scraper
-      // if there is a targeted scraper && there is good data, call the scraper and set its return as res
+      // if there is a targeted scraper && there is good data,
       if (Scrapers[modelKit.prefix as keyof Types.ScraperList] && modelKit.scrapable) {
+        // call the scraper and set its return as res
         res = await Scrapers[modelKit.prefix as keyof Types.ScraperList](Selenium, modelKit);
+        // if it wasn't found with the targeted scraper, try again with the wide net
+        if (!res.found) {
+          res = await scraper_1999co(Selenium, modelKit);
+        }
       } else {
         // otherwise, call a wide-reaching scraper and set its return as res
         //! here we can possibly add more wide scrapers, or add it to a list to "skip for now"

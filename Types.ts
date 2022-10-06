@@ -8,6 +8,7 @@ export interface ModelKit {
 export interface ModelKitResult extends ModelKit {
   releaseDate: string;
   scrapedDate: string;
+  found: boolean;
 }
 
 export interface ScraperList {
