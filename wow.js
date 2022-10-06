@@ -17,12 +17,12 @@ wow[c]; // evaluates to undefined, as wow.c has not been declared
 
 //! which option do i want? - what are the pros and cons of each?
 
-// # run thru prefixes, run each broad scraper after every unsuccessful attempt
+// # run thru targeted scrapers, run each fallback scraper after every unsuccessful attempt
 //@ i need to build this so that it will at first attempt to use a predefined scraper based on the prefix
 //@ if there is no prefix, or if there is no defined scraper for that prefix, then it should run through
 //@ a set of scrapers with wide reach that *should* get most of the outliers
 
-//# run thru prefixes, adding unsuccessful skus to a new list,
+//# run thru targeted, adding unsuccessful skus to a new list,
 //@ iterate through the prefixes with their specific scraper, and if unsuccessful, add the sku to a list
 //@ after first run through, write the data, and then start again with the wide nets on the unsuccessful list
 //* i'm not sure how to preserve the insert order here - writing the first list, then resuming the second list may overwrite the first list
