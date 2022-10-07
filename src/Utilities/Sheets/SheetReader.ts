@@ -31,17 +31,14 @@ export const readSKUsFromSheet = async () => {
 
         //* define the rows to be returned
         const rows = res!.data.values;
-        // console.log({ rows });
 
-        //* if there are rows, resolve with the rows
-        if (rows!.length) {
-          // console.log(`rows below:`);
-          // console.log(rows);
-          resolve(rows!);
-        } else {
-          //* otherwise, log and reject with a message
+        // if there are no rows, reject
+        if (!rows || !rows.length) {
           console.log("No data found.");
-          reject("No data found.");
+          reject("No data found - make sure the SKUs start on Row 5 :)");
+        } else {
+          // otherwise, return the rows
+          resolve(rows);
         }
       }
     );

@@ -52,7 +52,7 @@ export const scraper_aoshima = async (driver, modelKit: Types.ModelKit): Promise
     // split on . to get 'YYYY' 'MM'
     const releaseDateArr = rawReleaseDate.split(".");
     // find the word of the month that corresponds to the release date momth
-    const monthString = MONTHS[Number(releaseDateArr[1]) + 1];
+    const monthString = MONTHS[Number(releaseDateArr[1]) - 1];
     // put it all together
     const releaseDate = `${monthString} ${releaseDateArr[0]}`;
 
