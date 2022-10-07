@@ -58,7 +58,7 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
       // console.log(`iteration ${i}`);
       // console.log({ modelKit });
 
-      // define res here, then update it within the if else block with scraped data
+      // define res here, then update it within the if block with scraped data
       let res = {
         scrapable: true,
         rawSKU: "",
@@ -68,14 +68,6 @@ export async function launchSelenium(ModelKitArray: Types.ModelKit[]) {
         scrapedDate: "",
         found: false,
       };
-
-      /**
-       * this nested if logic can be improved:
-       * i want to call a function from an array (the wide net scrapers)
-       * so call the function, check if we got good results
-       * if we did, break and move to the next sku
-       * if we did not, call the next function
-       */
 
       //* await the result of scrapers
       // if there is a targeted scraper && there is good data,
