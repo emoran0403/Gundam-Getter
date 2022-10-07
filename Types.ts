@@ -14,4 +14,5 @@ export interface ModelKitResult extends ModelKit {
 export interface ScraperList {
   gcz: Function;
   koto: Function;
+  aos: Function;
 }

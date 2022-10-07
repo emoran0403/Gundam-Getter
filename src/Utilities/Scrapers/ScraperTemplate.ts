@@ -3,12 +3,24 @@ import { By } from "selenium-webdriver";
 import dayjs from "dayjs";
 
 const thisScraperSite = "SITE_NAME_HERE";
+/**
+ * ! Workflow
+ * change thisScraperSite to the website url
+ * change scraper_SITENAMEHERE to site name
+ * choose strategy (remove extra comments there)
+ * tailor scraper to the website
+ * import scraper in selenium file
+ * add scraper prefix to Scrapers in selenium file
+ * update interface ScraperList in Types file
+ */
 
 /**
+ * ! Strategies
  * Scraper Strategy: SKU into URL injection
  * Inject the SKU into the URL
  * Grab the release date
  * (kotobukiya)
+ * (aoshima)
  *
  * Scraper Strategy: Input and Search
  * Locate the search input and search button

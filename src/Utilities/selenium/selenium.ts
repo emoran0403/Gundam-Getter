@@ -3,13 +3,14 @@ import { Builder, By, Capabilities } from "selenium-webdriver";
 import * as firefox from "selenium-webdriver/firefox";
 import { scraper_1999co } from "../Scrapers/1999co";
 import { scraper_kotobukiya } from "../Scrapers/kotobukiya";
+import { scraper_aoshima } from "../Scrapers/aoshima";
 import * as Types from "../../../Types";
 
 //* source the firefox binaries from the project directory instead of elsewhere on the machine
 const geckopath = path.join(__dirname, "../../../../src/Utilities/selenium/");
 Object.assign(process.env, { ...process.env, PATH: `${process.env.Path};${geckopath}` });
 
-const Scrapers: Types.ScraperList = { gcz: scraper_1999co, koto: scraper_kotobukiya };
+const Scrapers: Types.ScraperList = { gcz: scraper_1999co, koto: scraper_kotobukiya, aos: scraper_aoshima };
 const FallbackScrapers = [scraper_1999co];
 
 /**
