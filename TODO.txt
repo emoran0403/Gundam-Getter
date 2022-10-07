@@ -6,44 +6,7 @@ https://console.cloud.google.com/apis/credentials?project=gundam-getter-2&suppor
 
 https://developers.google.com/sheets/api/quickstart/nodejs
 
-* DONE - optimize selenium - refactor / combine the getdates and scraper functions to not build a browser for every SKU
-* have it check out other sites as backups
-* DONE - options to make selenum run faster and not load images
+TODO:
 
-* do i want one massive workflow to check 3-4 sites and return the date or some failure message?
-
-* do i want specialized scrapers - one for each site?
-* if we go specialized, we could probably call them each in sequence if an earlier one cannot get results
-
-* if we go specialized would it be possible / easy to sort the urls so that we know which scraper to use - to optimize a little
-
-how to get the data to the sheet?
- - do we want to authorize the service on a sheet in the main spreadsheet?
- - if we authorize the service on a sheet, we can have its sheet read from another sheet
- - service sheet reads from main, writes to its service sheet, and main reads from service sheet
- - this way, service sheet never edits main directly
-* might need to sanitize the SKUs if they're going to have the 3 letter prefixes on them = super easy fix tbh
-
-do we want to write the date to the sheet, and the item's url for the page it was found on?
-
-
-!PROD ISSUES:
-FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
-which lead to - 
-
-https://stackoverflow.com/questions/59205530/heroku-server-crashes-with-javascript-heap-out-of-memory-when-deploying-react
-
-* switched to heroku-18 stack to use a buildpack, still having the memory ISSUES
-* not sure if i implemented that buildpack correctly
-
-
-//@ auth token has expired - need to get a refresh token
-
-//!  - https://www.npmjs.com/package/google-auth-library#oauth2 at the (Obtaining a new Refresh Token) section
-
-
-//# LEFT OFF HERE - on the passport branch, we are getting no errors, or other signs of life
-
-* remove passport, open, and server destroy, google-auth-library and their types
-authorize client will need to be changes
-and adding a view to the front end for verifying
+add more targeted scrapers
+add more wide net scrapers

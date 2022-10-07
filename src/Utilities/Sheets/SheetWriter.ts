@@ -7,8 +7,6 @@ interface SKUResult {
   releaseDateTR: string;
 }
 
-//! decide where and what data to place onto the sheet
-
 /**
  * This function writes the release date values to the sheet.
  * @param authClient An authorized client.
