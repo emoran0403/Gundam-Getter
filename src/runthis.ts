@@ -1,7 +1,8 @@
 import { google } from "googleapis";
-import { getDates } from "./Utilities/selenium/selenium";
+import { launchSelenium } from "./Utilities/selenium/selenium";
 import { readSKUsFromSheet } from "./Utilities/Sheets/SheetReader";
 import { writeValuesToSheet } from "./Utilities/Sheets/SheetWriter";
+import * as Types from "../Types";
 
 export default async function dostuff() {
   return new Promise(async (resolve, reject) => {
@@ -11,26 +12,30 @@ export default async function dostuff() {
 
       //* transform the data by flattening the rows...
       const RawSKUArray = rows.flat();
-      let niceSKUArray: string[] = [];
-      console.log(RawSKUArray);
+      let ModelKitArray: Types.ModelKit[] = [];
+      // console.log(`raw sku array next`);
+      // console.log(RawSKUArray);
 
       //* ...transform the data and remove the prefix
       RawSKUArray.forEach((rawSKU) => {
-        // niceSKU is the part of the rawSKU after the dash
-        const niceSKU = rawSKU.split("-")[1];
+        // Prefix is the letters before the dash, SKU is the number after the dash
+        const modelPrefix = rawSKU.split("-")[0];
+        const modelSKU = Number(rawSKU.split("-")[1]);
 
-        // if the data is undefined, push the raw data
-        if (!niceSKU) {
-          niceSKUArray.push(rawSKU);
+        // if the data is undefined, push dummy data (scrapable property will be used in to determine which to skip based on bad input data)
+        if (!modelSKU || !modelPrefix) {
+          ModelKitArray.push({ scrapable: false, rawSKU, prefix: "", SKU: -1 });
         } else {
-          // otherwise, push the SKU
-          niceSKUArray.push(niceSKU);
+          // otherwise, we have good data, so push the SKU
+          ModelKitArray.push({ scrapable: true, rawSKU, prefix: modelPrefix, SKU: modelSKU });
         }
       });
 
-      console.log(niceSKUArray);
+      // console.log(`nice sku array next`);
+      // console.log(ModelKitArray);
+
       //* this runs the selenium scraper
-      const data = await getDates(niceSKUArray);
+      const data = await launchSelenium(ModelKitArray);
 
       await writeValuesToSheet(data);
 
